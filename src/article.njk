@@ -1,0 +1,15 @@
+---
+layout: layouts/base.njk
+---
+<article class="mx-auto max-w-3xl">
+  <h1 class="text-3xl font-bold">{{ title }}</h1>
+  {% if data.author %}
+    <p class="text-sm text-muted">By {{ data.author }}</p>
+  {% endif %}
+  <div class="mt-6">
+    {{ content | safe }}
+  </div>
+  {% if data.original_url %}
+    <p class="mt-6 text-sm text-muted">Original: <a class="text-blue-600 underline" href="{{ data.original_url }}">{{ data.original_url }}</a></p>
+  {% endif %}
+</article>
