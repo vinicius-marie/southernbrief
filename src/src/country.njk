@@ -1,0 +1,33 @@
+---
+layout: layouts/base.njk
+---
+<h1 class="text-3xl font-bold">{{ title }}</h1>
+<p class="text-muted">{{ data.summary }}</p>
+
+{% if data.geojson %}
+  <div id="country-map" class="mt-4 h-80 border rounded"></div>
+  <script>
+    // Very simple client-side fetch for the geojson - adjust path if needed
+    fetch('{{ data.geojson }}').then(r => r.json()).then(g => {
+      const el = document.getElementById('country-map');
+      const map = L.map(el).fitBounds(L.geoJSON(g).getBounds());
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+      }).addTo(map);
+      L.geoJSON(g).addTo(map);
+    }).catch(() => {});
+  </script>
+{% endif %}
+
+<section class="mt-8">
+  <h2 class="text-xl font-semibold">Latest</h2>
+  <div class="space-y-3 mt-3">
+    {% for a in collections.aggregated | filter(item => item.data.country && item.data.country == data.name) | slice(0,10) %}
+      <div class="article-card">
+        <h4 class="font-semibold"><a href="{{ a.url }}">{{ a.data.title }}</a></h4>
+        <p class="text-sm text-muted">{{ a.data.summary }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
