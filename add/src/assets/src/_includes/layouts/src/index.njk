@@ -1,0 +1,38 @@
+---
+layout: layouts/base.njk
+title: Home
+---
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <div class="lg:col-span-2">
+    <h2 class="text-2xl font-semibold mb-4">Top Story</h2>
+    {% set featured = collections.articles | filter(item => item.data.is_featured) | first %}
+    {% if featured %}
+      <article class="hero article-card">
+        <h3 class="text-xl font-bold mb-2"><a href="{{ featured.url }}">{{ featured.data.title }}</a></h3>
+        <p class="text-muted">{{ featured.data.excerpt }}</p>
+      </article>
+    {% else %}
+      {% set top = collections.aggregated | filter(item => item.data.is_major) | first %}
+      {% if top %}
+        <article class="hero article-card">
+          <h3 class="text-xl font-bold mb-2"><a href="{{ top.url }}">{{ top.data.title }}</a></h3>
+          <p class="text-muted">{{ top.data.summary }}</p>
+        </article>
+      {% else %}
+        <div class="p-6 bg-gray-50 rounded">No top stories yet.</div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <aside>
+    <h3 class="text-lg font-medium mb-4">Latest Majors</h3>
+    <div class="space-y-3">
+      {% for a in collections.aggregated | filter(item => item.data.is_major) | slice(0,10) %}
+        <div class="article-card">
+          <h4 class="text-md font-semibold"><a href="{{ a.url }}" class="text-blue-600 hover:underline">{{ a.data.title }}</a></h4>
+          <p class="text-sm text-muted">{{ a.data.summary }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </aside>
+</section>
