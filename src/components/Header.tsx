@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 
 export function Header() {
   return (
-    <header className="bg-primary/5 border-b border-[rgba(31,34,39,0.08)] backdrop-blur sticky top-0 z-50">
+    <header className="bg-background border-b border-[rgba(31,34,39,0.08)]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col gap-2 py-4">
           <div className="flex items-center justify-between">
@@ -11,7 +11,7 @@ export function Header() {
               to="/"
               className="flex items-center gap-3 text-foreground hover:text-primary transition-colors"
             >
-              <span className="inline-flex items-center justify-center size-9 rounded-full border border-[rgba(31,34,39,0.16)] text-[11px] font-medium tracking-[0.18em] sans">
+              <span className="inline-flex items-center justify-center h-8 w-8 rounded-full border border-[rgba(31,34,39,0.16)] text-[10px] font-semibold tracking-[0.14em] sans uppercase">
                 SB
               </span>
               <span className="flex flex-col leading-tight">
@@ -23,7 +23,7 @@ export function Header() {
             </Link>
 
             {/* Navigation */}
-            <nav className="flex flex-wrap items-center gap-6 text-sm sans">
+            <nav className="flex flex-wrap items-center gap-8 text-sm sans">
               <NavLink
                 to="/"
                 className={({ isActive }) =>
@@ -48,12 +48,30 @@ export function Header() {
               >
                 Briefs
               </NavLink>
-              <button className="text-muted-foreground hover:text-foreground transition-colors hover:underline underline-offset-4">
+              <NavLink
+                to="/countries"
+                className={({ isActive }) =>
+                  `transition-colors hover:underline underline-offset-4 ${
+                    isActive
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`
+                }
+              >
                 Countries
-              </button>
-              <button className="text-muted-foreground hover:text-foreground transition-colors hover:underline underline-offset-4">
+              </NavLink>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  `transition-colors hover:underline underline-offset-4 ${
+                    isActive
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`
+                }
+              >
                 About
-              </button>
+              </NavLink>
               {import.meta.env.DEV && (
                 <NavLink
                   to="/admin"

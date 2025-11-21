@@ -4,6 +4,8 @@ import { Footer } from "./components/Footer";
 import { HomePage } from "./pages/HomePage";
 import { ArticlePage } from "./pages/ArticlePage";
 import { BriefsPage } from "./pages/BriefsPage";
+import { CountriesPage } from "./pages/CountriesPage";
+import { AboutPage } from "./pages/AboutPage";
 import { AdminPage } from "./pages/AdminPage";
 
 export default function App() {
@@ -17,6 +19,8 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/article" element={<ArticlePage />} />
           <Route path="/briefs" element={<BriefsPage />} />
+          <Route path="/countries" element={<CountriesPage />} />
+          <Route path="/about" element={<AboutPage />} />
           {import.meta.env.DEV && (
             <Route path="/admin" element={<AdminPage />} />
           )}
