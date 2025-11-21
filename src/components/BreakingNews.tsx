@@ -1,87 +1,80 @@
-import { TrendingUp, X } from "lucide-react";
-import { CountryTag } from "./CountryTag";
-import { useState } from "react";
+import { TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import briefsData from "../data/briefs.json";
+
+type Brief = {
+  source: string;
+  title: string;
+  summary: string;
+  country: string;
+  countryId: string;
+  date: string;
+};
 
 export function BreakingNews() {
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const briefs = (briefsData as Brief[]).slice(0, 8);
 
-  const breakingItems = [
-    {
-      title: "Milei announces emergency economic decree bypassing Congress",
-      country: "Argentina",
-      time: "12 min ago",
-    },
-    {
-      title: "Brazilian real hits 3-month high against dollar",
-      country: "Brazil",
-      time: "45 min ago",
-    },
-    {
-      title: "Chile declares state of emergency in lithium-rich Atacama region",
-      country: "Chile",
-      time: "2 hours ago",
-    },
-  ];
+  if (!briefs.length) return null;
 
-  if (!isVisible) return null;
-
-  const currentItem = breakingItems[currentIndex];
+  const handleClick = () => {
+    navigate("/briefs");
+  };
 
   return (
-    <div className="bg-primary text-white border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 sm:py-3">
-        <div className="flex items-center gap-3 sm:gap-6">
-          <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-            <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="text-[11px] sm:text-[12px] sans uppercase tracking-wider font-medium">
-              Breaking
-            </span>
+    <div
+      className="bg-destructive text-white border-b border-white/10"
+      role="region"
+      aria-label="Breaking news"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 sm:py-2.5">
+        <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="inline-flex items-center justify-center size-9 rounded-full bg-white/10 border border-white/20">
+              <TrendingUp className="w-4 h-4" />
+            </div>
+            <div className="inline-flex items-center px-3 py-1 rounded-full border border-white/30 bg-white/10">
+              <span className="text-[11px] sm:text-[12px] sans uppercase tracking-wider font-medium">
+                Breaking
+              </span>
+            </div>
           </div>
 
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 overflow-hidden">
             <button
-              onClick={() => navigate("/article")}
+              type="button"
+              onClick={handleClick}
               className="w-full text-left hover:text-white/90 transition-colors"
             >
-              <div className="flex items-center gap-2 sm:gap-3">
-                <span className="text-[13px] sm:text-[14px] sans flex-1 line-clamp-1">
-                  {currentItem.title}
-                </span>
-                <div className="hidden sm:flex items-center gap-2 flex-shrink-0">
-                  <CountryTag country={currentItem.country} />
-                  <span className="text-[12px] text-white/70">
-                    · {currentItem.time}
-                  </span>
+              <div className="relative overflow-hidden">
+                <div className="breaking-ticker-track inline-flex items-center gap-8 whitespace-nowrap">
+                  {briefs.map((brief, index) => (
+                    <span
+                      key={`ticker-${index}`}
+                      className="text-[13px] sm:text-[14px] sans flex items-center gap-2"
+                    >
+                      <span className="uppercase tracking-wide text-[11px] sm:text-[12px] text-white/80">
+                        {brief.source}
+                      </span>
+                      <span className="text-white/70">—</span>
+                      <span className="line-clamp-1">{brief.title}</span>
+                    </span>
+                  ))}
+                  {briefs.map((brief, index) => (
+                    <span
+                      key={`ticker-dup-${index}`}
+                      className="text-[13px] sm:text-[14px] sans flex items-center gap-2"
+                      aria-hidden="true"
+                    >
+                      <span className="uppercase tracking-wide text-[11px] sm:text-[12px] text-white/80">
+                        {brief.source}
+                      </span>
+                      <span className="text-white/70">—</span>
+                      <span className="line-clamp-1">{brief.title}</span>
+                    </span>
+                  ))}
                 </div>
               </div>
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            <div className="hidden sm:flex items-center gap-1.5">
-              {breakingItems.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                    index === currentIndex
-                      ? "bg-white"
-                      : "bg-white/40 hover:bg-white/60"
-                  }`}
-                  aria-label={`Go to breaking news ${index + 1}`}
-                />
-              ))}
-            </div>
-
-            <button
-              onClick={() => setIsVisible(false)}
-              className="p-0.5 sm:p-1 hover:bg-white/10 rounded transition-colors"
-              aria-label="Close breaking news"
-            >
-              <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
           </div>
         </div>

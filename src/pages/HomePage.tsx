@@ -58,14 +58,14 @@ export function HomePage() {
       <BreakingNews />
       <CountryTabs selected={selectedCountry} onSelect={setSelectedCountry} />
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="grid grid-cols-12 gap-6">
           {/* Analysis Well - Main Column */}
           <div className="col-span-12 lg:col-span-8">
             {/* Featured Story */}
             {featuredArticle && (
-              <article className="bg-white rounded border border-[rgba(31,34,39,0.08)] p-8 mb-8 cursor-pointer group">
-                <div className="relative aspect-[16/9] mb-6 overflow-hidden rounded">
+              <article className="bg-white rounded border border-[rgba(31,34,39,0.08)] hover:border-foreground/20 transition-[color,box-shadow] cursor-pointer group p-8 mb-10">
+                <div className="relative aspect-[16/9] mb-5 overflow-hidden rounded">
                   <ImageWithFallback
                     src={featuredArticle.image || ""}
                     alt={featuredArticle.title}
@@ -78,11 +78,11 @@ export function HomePage() {
                   <CountryTag country={featuredArticle.country} />
                 </div>
 
-                <h1 className="serif text-foreground group-hover:text-primary transition-colors mb-4">
+                <h1 className="serif text-foreground group-hover:text-primary transition-colors mb-3">
                   {featuredArticle.title}
                 </h1>
 
-                <p className="text-[17px] text-foreground/80 leading-relaxed mb-6">
+                <p className="text-[17px] text-foreground/80 leading-relaxed mb-4">
                   {featuredArticle.standfirst}
                 </p>
 
@@ -99,7 +99,7 @@ export function HomePage() {
               {remainingArticles.slice(0, 4).map((article, index) => (
                 <article
                   key={index}
-                  className="bg-white rounded border border-[rgba(31,34,39,0.08)] p-5 cursor-pointer group"
+                  className="bg-white rounded border border-[rgba(31,34,39,0.08)] hover:border-foreground/20 transition-[color,box-shadow] cursor-pointer group p-5"
                   onClick={() => navigate("/article")}
                 >
                   {article.image && (
@@ -121,7 +121,7 @@ export function HomePage() {
                     {article.title}
                   </h3>
 
-                  <p className="text-[14px] text-foreground/70 leading-relaxed mb-3 line-clamp-2">
+                  <p className="text-[14px] text-foreground/70 leading-relaxed mb-2 line-clamp-2">
                     {article.standfirst}
                   </p>
 
@@ -135,14 +135,14 @@ export function HomePage() {
             </div>
 
             {/* More Analysis - List Format */}
-            <div className="space-y-4">
-              <h3 className="text-[18px] serif text-foreground mb-4 pb-3 border-b border-[rgba(31,34,39,0.1)]">
+            <div className="space-y-4 mt-12">
+              <h3 className="text-[18px] serif text-foreground mb-3 pb-3 border-b border-[rgba(31,34,39,0.1)]">
                 More Analysis
               </h3>
               {remainingArticles.slice(4).map((article, index) => (
                 <article
                   key={index}
-                  className="bg-white rounded border border-[rgba(31,34,39,0.08)] p-5 cursor-pointer group"
+                  className="bg-white rounded border border-[rgba(31,34,39,0.08)] hover:border-foreground/20 transition-[color,box-shadow] cursor-pointer group p-5"
                   onClick={() => navigate("/article")}
                 >
                   <div className="flex items-center gap-3 mb-2">
@@ -154,7 +154,7 @@ export function HomePage() {
                     {article.title}
                   </h4>
 
-                  <p className="text-[14px] text-foreground/70 leading-relaxed mb-3">
+                  <p className="text-[14px] text-foreground/70 leading-relaxed mb-2">
                     {article.standfirst}
                   </p>
 

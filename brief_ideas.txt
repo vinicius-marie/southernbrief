@@ -1,0 +1,177 @@
+Southern Brief — Automation ideas for news briefs
+=================================================
+
+1. Title and context
+--------------------
+
+- Long-form analysis articles remain handcrafted by me using the existing helper at `scripts/add-article.mjs`.
+- Only the short, “normie” news briefs are candidates for automation.
+- Briefs are stored in `src/data/briefs.json` as an array of objects with the fields:
+  - `source`
+  - `title`
+  - `summary`
+  - `country`
+  - `countryId`
+  - `date`
+- The goal of automation is to keep this file fresh with factual, wire-style updates while preserving manual control over opinion and analysis content.
+
+
+2. Data model recap
+-------------------
+
+- Expected brief shape (per entry in `src/data/briefs.json`):
+  - `source`: string — news outlet or feed name, e.g. `"Reuters"`, `"Folha"`.
+  - `title`: string — short headline for the brief.
+  - `summary`: string — 1–2 sentence summary in neutral, descriptive language.
+  - `country`: string — human-readable country name (e.g. `"Argentina"`, `"Chile"`).
+  - `countryId`: string — slug used by the site for filtering (e.g. `"argentina"`, `"chile"`, `"all"`).
+  - `date`: string — display label for the date, e.g. `"Nov 21"` or `"2025-11-21"`.
+- The site already consumes this JSON in two places:
+  - “Latest Briefs” sidebar section on the home page.
+  - Full “News Briefs” listing on the Briefs page.
+- Any automation must preserve this exact shape so the UI components continue to work without changes.
+
+
+3. Option A — GitHub Actions + Node.js script (runs hourly)
+----------------------------------------------------------
+
+Idea
+----
+
+- Add a Node.js script, e.g. `scripts/fetch-briefs.mjs`, that:
+  - Fetches news from free sources:
+    - RSS feeds from mainstream outlets.
+    - Google News RSS queries scoped to specific topics or Southern Cone countries.
+  - Normalizes each item into the brief format:
+    - `source`: feed name or publisher.
+    - `title`: cleaned-up headline.
+    - `summary`: short neutral summary, trimmed to ~1–2 sentences.
+    - `country` / `countryId`: inferred based on feed URL, query, or simple keyword mapping.
+    - `date`: formatted display date string.
+  - Deduplicates against existing entries in `src/data/briefs.json`:
+    - Compare by title (case-insensitive) and possibly `source + title`.
+  - Inserts new briefs at the top of the array so the newest items appear first.
+  - Optionally trims the array to a maximum size (for example, keep only the most recent 200–300 briefs).
+  - Writes the updated JSON back to `src/data/briefs.json`.
+
+GitHub Actions workflow
+-----------------------
+
+- Add a workflow file (e.g. `.github/workflows/fetch-briefs.yml`) that:
+  - Runs on a cron schedule, e.g. `0 * * * *` (once per hour).
+  - Steps:
+    - `actions/checkout` to pull the repo.
+    - `actions/setup-node` with the Node version used by the project.
+    - `npm ci` to install dependencies.
+    - `node scripts/fetch-briefs.mjs` to update `src/data/briefs.json`.
+    - Check for changes:
+      - If `src/data/briefs.json` changed, configure git user as `github-actions[bot]`.
+      - Commit the updated JSON with a message like `"chore: refresh briefs"`.
+      - Push back to `main` or a dedicated auto-updates branch.
+
+Pros
+----
+
+- Fully automatic and runs on GitHub’s infrastructure; no local machine required.
+- Keeps the static site model: GitHub Pages will serve the updated JSON (and, if desired, a new build workflow can be chained).
+- Easy to control schedule and logs via the Actions UI.
+
+Cons / requirements
+-------------------
+
+- Must respect the terms of service for whichever news sources / RSS feeds are used.
+- Requires setting `contents: write` permission in the workflow so it can commit and push.
+- Error handling and rate-limiting logic are needed to avoid failing the workflow due to transient network issues.
+
+
+4. Option B — Google Apps Script + Google Sheets as a staging layer
+-------------------------------------------------------------------
+
+Idea
+----
+
+- Use a Google Sheet as a staging area for briefs:
+  - Each row represents a potential brief.
+  - Columns: `source`, `title`, `summary`, `country`, `countryId`, `date`.
+- A Google Apps Script (bound to the Sheet) with a time-driven trigger (e.g. hourly) would:
+  - Pull items from RSS / other feeds.
+  - Normalize them into the brief shape and populate new rows or update existing ones.
+  - Optionally highlight rows needing review (e.g. based on keyword filters).
+- Another script (or menu action) would export the sheet to JSON in the same shape as `briefs.json`:
+  - Gather all approved rows.
+  - Serialize them to JSON as an array of brief objects.
+  - Make the JSON available by:
+    - Downloading it manually and pasting into `src/data/briefs.json`, OR
+    - Sending it directly to GitHub via the GitHub REST API.
+
+Pros
+----
+
+- Friendly UI to review and edit briefs directly in Google Sheets before they appear on the site.
+- Easy to tweak basic filters, formulas, and flags (e.g. mark items as “publish” vs “discard”).
+- Non-technical workflows (like quick manual edits) are straightforward.
+
+Cons
+----
+
+- Adds a staging step unless fully automated with the GitHub API.
+- Sync between Sheets and `src/data/briefs.json` must be kept consistent (e.g. via a clear “export” button or scheduled push).
+- Slightly more complex setup (Apps Script permissions, GitHub personal access token if pushing automatically).
+
+
+5. Option C — Local script + cron on a developer machine
+--------------------------------------------------------
+
+Idea
+----
+
+- Write a small Node.js or Python script that runs on my machine:
+  - Similar to Option A’s `fetch-briefs.mjs`, but executed locally.
+  - Pulls RSS / news feeds on a schedule (system cron, `launchd`, Windows Task Scheduler).
+  - Normalizes items into the brief format.
+  - Deduplicates and trims `src/data/briefs.json`.
+  - Runs `git add src/data/briefs.json`, `git commit`, and `git push`.
+
+Pros
+----
+
+- Full control and easy debugging with local tools.
+- No need to grant write access to a GitHub Actions workflow.
+- Can use local credentials to access less-public feeds or APIs, if desired.
+
+Cons
+----
+
+- Only runs when my machine is online and the scheduler is configured correctly.
+- Less “fire-and-forget” than a cloud scheduler; requires some maintenance.
+
+
+6. Editorial controls and tone
+------------------------------
+
+- Automation should aim for neutral, factual, “wire” style language:
+  - Focus on what happened, where, and when.
+  - Avoid strong adjectives, speculation, or opinion.
+- Opinionated / analysis pieces remain human-written:
+  - These live primarily in `articles.json` and are created through `scripts/add-article.mjs`.
+  - Automated scripts should NOT generate new long-form analysis entries.
+- It is acceptable (and preferred) to treat automated briefs as a draft queue:
+  - Automation can propose many briefs.
+  - I can prune, edit, or override them before they are published.
+  - Some options (especially Option B) explicitly keep a human-in-the-loop review stage.
+
+
+7. Next steps
+-------------
+
+- Choose an initial implementation path:
+  - Option A: GitHub Actions + Node script if I’m comfortable with Node and working entirely inside GitHub.
+  - Option B: Google Sheets + Apps Script if I want a visual dashboard and manual approval flow.
+- Start with a “safe” mode:
+  - Keep the automation behind a separate script or branch at first.
+  - For example, write to `data/raw-briefs.json` or `data/briefs-staging.json` instead of the live `src/data/briefs.json`.
+  - Review the generated items manually before wiring them into the production JSON.
+- Once satisfied with the quality:
+  - Point the automation at `src/data/briefs.json`.
+  - Optionally add logging of raw fetched items to a separate file (e.g. `data/raw-briefs.json`) for debugging or audit.
+  - Document the chosen approach in the repository README so future contributors understand how briefs are updated.
