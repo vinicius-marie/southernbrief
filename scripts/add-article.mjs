@@ -5,6 +5,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { bold, cyan, green, yellow, magenta, gray } from "kolorist";
+import { deploy } from "./deploy.mjs";
 
 const rl = createInterface({ input, output });
 
@@ -175,8 +176,24 @@ try {
   }
 
   console.log(
-    yellow("\nNext steps: run git status, review the JSON diff, then commit."),
+    yellow(
+      "\nNext steps: review the JSON diff. This helper can now build, commit, and push for you.",
+    ),
   );
+
+  const shouldDeploy = await askBoolean(
+    "Run build, commit, and push to origin now?",
+    true,
+  );
+
+  if (shouldDeploy) {
+    try {
+      await deploy();
+    } catch (error) {
+      console.error("Deployment failed:", error.message);
+      process.exitCode = 1;
+    }
+  }
 } catch (error) {
   console.error("Failed to add content:", error.message);
   process.exitCode = 1;

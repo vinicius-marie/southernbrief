@@ -3,6 +3,7 @@ import Parser from "rss-parser";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { deploy } from "./deploy.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,21 +56,18 @@ function formatDate(dateLike) {
   if (Number.isNaN(d.getTime())) {
     return "Unknown";
   }
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  return `${months[d.getMonth()]} ${d.getDate()}`;
+
+  const monthDay = d.toLocaleString("en-US", {
+    month: "short",
+    day: "2-digit",
+  });
+  const time = d.toLocaleString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
+  return `${monthDay}, ${time}`;
 }
 
 function cleanSummary(text) {
@@ -170,6 +168,8 @@ async function main() {
     for (const b of newBriefs) {
       console.log(`  - ${b.source}: ${b.title}`);
     }
+
+    await deploy();
   } catch (err) {
     console.error("Error writing briefs.json:", err);
     process.exit(1);
