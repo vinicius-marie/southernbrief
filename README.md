@@ -14,17 +14,15 @@ npm run build # optional sanity check before pushing
 
 - All long-form stories live in `src/data/articles.json`.
 - News briefs live in `src/data/briefs.json`.
-- The home, briefs, and admin pages import those JSON files directly so every update stays in sync.
+- Every page imports those JSON files directly so updates remain in sync.
 
-To quickly scaffold a new analysis article run:
+Use the content helper to add **either** an analysis article **or** a brief:
 
 ```bash
 npm run add:article
 ```
 
-The script will ask for the section, country, title, standfirst, author, date, and image URL. It also lets you flag an article as featured and decide whether it should appear at the top of the list. The command updates `src/data/articles.json`; review the diff and commit it along with any image assets.
-
-(Briefs can be edited manually in `src/data/briefs.json`. A matching helper script can be added later following the same pattern.)
+The script walks through the required fields (section, country, etc.), lets you choose whether to feature or pin the entry, and prints a colorized preview before writing to disk. After it finishes, check `git status`, review the JSON diff, and commit.
 
 ## Deployment
 

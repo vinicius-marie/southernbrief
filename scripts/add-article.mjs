@@ -4,25 +4,35 @@ import { stdin as input, stdout as output } from "node:process";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { bold, cyan, green, yellow, magenta, gray } from "kolorist";
 
 const rl = createInterface({ input, output });
 
 const ask = async (question, { required = true, defaultValue = "" } = {}) => {
   while (true) {
-    const answer = (await rl.question(defaultValue ? `${question} (${defaultValue}): ` : `${question}: `)).trim();
-    if (!answer && required && !defaultValue) {
-      console.log("This field is required.\n");
+    const suffix = defaultValue ? ` (${defaultValue})` : "";
+    const answer = (await rl.question(`${question}${suffix}: `)).trim();
+    if (!answer && defaultValue) {
+      return defaultValue;
+    }
+    if (!answer && required) {
+      console.log(gray("This field is required.\n"));
       continue;
     }
-    return answer || defaultValue;
+    return answer;
   }
 };
 
-const askOptional = (question) => ask(question, { required: false });
+const askOptional = async (question) => {
+  const answer = (await rl.question(`${question} (optional): `)).trim();
+  return answer || undefined;
+};
 
-const askBoolean = async (question) => {
-  const answer = (await rl.question(`${question} (y/N): `)).trim().toLowerCase();
-  return answer === "y" || answer === "yes";
+const askBoolean = async (question, defaultValue = false) => {
+  const hint = defaultValue ? "Y/n" : "y/N";
+  const answer = (await rl.question(`${question} (${hint}): `)).trim().toLowerCase();
+  if (!answer) return defaultValue;
+  return ["y", "yes"].includes(answer);
 };
 
 const slugify = (value) =>
@@ -33,60 +43,108 @@ const slugify = (value) =>
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const dataPath = path.join(__dirname, "..", "src", "data", "articles.json");
+const dataDir = path.join(__dirname, "..", "src", "data");
+const articlesPath = path.join(dataDir, "articles.json");
+const briefsPath = path.join(dataDir, "briefs.json");
+
+const chooseContentType = async () => {
+  while (true) {
+    const answer = (await rl.question("Add analysis or brief? (analysis): ")).trim().toLowerCase();
+    if (!answer || answer === "analysis") return "analysis";
+    if (answer === "brief") return "brief";
+    console.log(gray("Please answer with 'analysis' or 'brief'.\n"));
+  }
+};
+
+const showPreview = (title, payload) => {
+  console.log(`\n${bold(cyan(title))}`);
+  Object.entries(payload).forEach(([key, value]) => {
+    if (value === undefined) return;
+    console.log(`  ${magenta(key)}: ${value}`);
+  });
+  console.log();
+};
 
 try {
-  const raw = await readFile(dataPath, "utf8");
-  const articles = JSON.parse(raw);
+  console.log(bold(cyan("\nSouthern Brief Content Helper")));
+  const type = await chooseContentType();
 
-  console.log("\nAdd a new analysis article to src/data/articles.json\n");
+  if (type === "analysis") {
+    const articles = JSON.parse(await readFile(articlesPath, "utf8"));
+    const section = await ask("Section (e.g. Politics)");
+    const country = await ask("Country");
+    const defaultCountryId = slugify(country);
+    const countryId = await ask("Country ID", { required: false, defaultValue: defaultCountryId });
+    const title = await ask("Headline");
+    const standfirst = await ask("Standfirst / summary");
+    const author = await ask("Author");
+    const date = await ask("Date label (e.g. Nov 21)");
+    const image = await askOptional("Image URL");
+    const featured = await askBoolean("Make this the featured story?");
+    const placeFirst = await askBoolean("Insert at top of list?", true);
 
-  const section = await ask("Section (e.g. Politics)");
-  const country = await ask("Country (e.g. Argentina)");
-  const defaultCountryId = slugify(country);
-  const countryId = await ask("Country ID", { required: false, defaultValue: defaultCountryId });
-  const title = await ask("Headline");
-  const standfirst = await ask("Standfirst / summary");
-  const author = await ask("Author");
-  const date = await ask("Date label (e.g. Nov 21)");
-  const image = await askOptional("Image URL (leave blank for none)");
-  const feature = await askBoolean("Mark as featured");
+    const newArticle = {
+      section,
+      country,
+      countryId,
+      title,
+      standfirst,
+      author,
+      date,
+    };
 
-  const newArticle = {
-    section,
-    country,
-    countryId,
-    title,
-    standfirst,
-    author,
-    date,
-  };
+    if (image) newArticle.image = image;
 
-  if (image) {
-    newArticle.image = image;
-  }
-
-  if (feature) {
-    articles.forEach((article) => {
-      if (article.featured) {
-        delete article.featured;
+    if (featured) {
+      for (const article of articles) {
+        if (article.featured) delete article.featured;
       }
-    });
-    newArticle.featured = true;
-  }
+      newArticle.featured = true;
+    }
 
-  const placeFirst = await askBoolean("Place at top of the list");
-  if (placeFirst) {
-    articles.unshift(newArticle);
+    if (placeFirst) {
+      articles.unshift(newArticle);
+    } else {
+      articles.push(newArticle);
+    }
+
+    showPreview("New analysis", newArticle);
+    await writeFile(articlesPath, `${JSON.stringify(articles, null, 2)}\n`);
+    console.log(green("Analysis saved to src/data/articles.json"));
   } else {
-    articles.push(newArticle);
+    const briefs = JSON.parse(await readFile(briefsPath, "utf8"));
+    const source = await ask("Source (e.g. La Nación)");
+    const title = await ask("Headline");
+    const summary = await ask("Summary sentence");
+    const country = await ask("Country");
+    const defaultCountryId = slugify(country);
+    const countryId = await ask("Country ID", { required: false, defaultValue: defaultCountryId });
+    const date = await ask("Date label (e.g. Nov 21)");
+    const placeFirst = await askBoolean("Insert at top of list?", true);
+
+    const newBrief = {
+      source,
+      title,
+      summary,
+      country,
+      countryId,
+      date,
+    };
+
+    if (placeFirst) {
+      briefs.unshift(newBrief);
+    } else {
+      briefs.push(newBrief);
+    }
+
+    showPreview("New brief", newBrief);
+    await writeFile(briefsPath, `${JSON.stringify(briefs, null, 2)}\n`);
+    console.log(green("Brief saved to src/data/briefs.json"));
   }
 
-  await writeFile(dataPath, `${JSON.stringify(articles, null, 2)}\n`);
-
-  console.log("\nArticle saved. Review src/data/articles.json and commit the change.");
+  console.log(yellow("\nNext steps: run git status, review the JSON diff, then commit."));
 } catch (error) {
-  console.error("Failed to add article:", error.message);
+  console.error("Failed to add content:", error.message);
   process.exitCode = 1;
 } finally {
   rl.close();
