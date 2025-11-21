@@ -328,7 +328,7 @@ export function AdminPage() {
                 </div>
               </section>
 
-              {/* Analysis preview */}
+              {/* Opinion preview */}
               <section className="bg-card rounded border border-[rgba(31,34,39,0.08)] p-6">
                 <h2 className="serif text-[20px] text-foreground mb-4">
                   Live preview

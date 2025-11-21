@@ -58,6 +58,7 @@
     "dev": "vite",
     "build": "vite build",
     "add:article": "node scripts/add-article.mjs",
-    "fetch:briefs": "node scripts/fetch-briefs.mjs"
+    "fetch:briefs": "node scripts/fetch-briefs.mjs",
+    "deploy": "node scripts/deploy.mjs"
   }
 }

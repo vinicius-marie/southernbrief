@@ -134,9 +134,9 @@ try {
       articles.push(newArticle);
     }
 
-    showPreview("New analysis", newArticle);
+    showPreview("New opinion piece", newArticle);
     await writeFile(articlesPath, `${JSON.stringify(articles, null, 2)}\n`);
-    console.log(green("Analysis saved to src/data/articles.json"));
+    console.log(green("Opinion saved to src/data/articles.json"));
   } else {
     const briefs = JSON.parse(await readFile(briefsPath, "utf8"));
     const source = await ask("Source (e.g. La Nación)");
