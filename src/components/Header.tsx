@@ -36,7 +36,7 @@ export function Header() {
               ].join(" ")
             }
           >
-            Analysis
+            Opinion
           </NavLink>
           <NavLink
             to="/briefs"

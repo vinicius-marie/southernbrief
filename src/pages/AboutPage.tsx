@@ -10,10 +10,24 @@ export function AboutPage() {
             About Southern Brief
           </h1>
           <p className="text-sm sans text-muted-foreground max-w-2xl">
-            Southern Brief is a text‑first newsroom focused on the politics,
-            economics and society of the Southern Cone. Long‑form analysis is
-            written by humans; short “wire” briefs are curated and assisted by
-            automation, then delivered as a static, privacy‑respecting site.
+            Southern Brief starts from a simple claim: Washington squandered the
+            moral and strategic capital it once held in the hemisphere. Instead
+            of guarding a stable American sphere, it chased crusades abroad,
+            opened its markets and borders without limit, exported its industry,
+            and taught every rival how to bypass its leverage.
+          </p>
+          <p className="text-sm sans text-muted-foreground max-w-2xl mt-4">
+            This site follows the consequences of that retreat in the Southern
+            Cone: how power realigns, how institutions bend, and how ordinary
+            citizens absorb the shocks. The voice is deliberately local and
+            legalistic, not diplomatic—grounded in texts, constitutions and
+            trade law rather than talking‑point multilateralism.
+          </p>
+          <p className="text-sm sans text-muted-foreground max-w-2xl mt-4">
+            Southern Brief is edited by Vinicivs‑M. Blanchard, a Generation Z
+            lawyer who writes from the South but reads the world through old‑
+            fashioned lenses: sovereignty over fashion, order over spectacle,
+            and clarity over euphemism.
           </p>
         </header>
       </div>
