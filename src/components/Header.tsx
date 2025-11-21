@@ -21,12 +21,11 @@ export function Header() {
             <span className="sans text-[11px] tracking-[0.28em] uppercase text-muted-foreground">
               Southern Brief
             </span>
-            <span className="serif text-lg tracking-tight">Opinion</span>
           </span>
         </Link>
 
         {/* Navigation */}
-        <nav className="flex items-center gap-6">
+        <nav className="flex items-center gap-6 ml-6">
           <NavLink
             to="/"
             className={({ isActive }) =>
