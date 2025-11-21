@@ -11,6 +11,7 @@ type Brief = {
   country: string;
   countryId?: string;
   date: string;
+  url?: string;
 };
 
 export function BriefsPage() {
@@ -88,15 +89,23 @@ export function BriefsPage() {
                       <CountryTag country={brief.country} />
                     </div>
 
-                    <a
-                      href="#"
-                      className="group/link flex items-start gap-2 mb-2"
-                    >
-                      <h3 className="text-[16px] sans text-foreground group-hover/link:text-accent transition-colors leading-snug">
+                    {brief.url ? (
+                      <a
+                        href={brief.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/link flex items-start gap-2 mb-2"
+                      >
+                        <h3 className="text-[16px] sans text-foreground group-hover/link:text-accent transition-colors leading-snug">
+                          {brief.title}
+                        </h3>
+                        <ExternalLink className="w-3.5 h-3.5 text-muted-foreground mt-0.5 flex-shrink-0" />
+                      </a>
+                    ) : (
+                      <h3 className="text-[16px] sans text-foreground mb-2 leading-snug">
                         {brief.title}
                       </h3>
-                      <ExternalLink className="w-3.5 h-3.5 text-muted-foreground mt-0.5 flex-shrink-0" />
-                    </a>
+                    )}
 
                     <p className="text-[14px] sans text-foreground/60 leading-relaxed mb-3">
                       {brief.summary}

@@ -38,6 +38,7 @@ type Brief = {
   country: string;
   countryId: string;
   date: string;
+  url?: string;
 };
 
 type BriefDraft = Brief & {
@@ -78,6 +79,7 @@ export function AdminPage() {
     country: "",
     countryId: "",
     date: "",
+    url: "",
     insertAtTop: true,
   });
   const [briefCountryIdDirty, setBriefCountryIdDirty] = useState(false);
@@ -110,6 +112,7 @@ export function AdminPage() {
     const { insertAtTop, ...brief } = briefDraft;
     const cleaned: Brief = {
       ...brief,
+      url: brief.url || undefined,
     };
     const json = JSON.stringify(cleaned, null, 2);
     setBriefJson(json);
@@ -529,6 +532,21 @@ export function AdminPage() {
                           }))
                         }
                         placeholder="One or two sentences describing the development."
+                      />
+                    </div>
+                    <div>
+                      <Label className="sans text-[13px] text-muted-foreground mb-1 block">
+                        Source URL (optional)
+                      </Label>
+                      <Input
+                        value={briefDraft.url ?? ""}
+                        onChange={(e) =>
+                          setBriefDraft((prev) => ({
+                            ...prev,
+                            url: e.target.value,
+                          }))
+                        }
+                        placeholder="https://example.com/story"
                       />
                     </div>
                   </div>

@@ -81,6 +81,7 @@ Briefing tab
   - `country`    – human-readable country.
   - `countryId`  – slug (same rules as above).
   - `date`       – display label (e.g. “Nov 22, 14:30”).
+  - `url`        – optional link to the original story.
   - Local-only flag: `insertAtTop` – whether you paste at top of the array.
 - Country slug behaves the same as in the Opinion tab.
 - Live preview:

@@ -153,6 +153,7 @@ try {
       required: false,
       defaultValue: dateDefault,
     });
+    const url = await askOptional("Source URL");
     const placeFirst = await askBoolean("Insert at top of list?", true);
 
     const newBrief = {
@@ -163,6 +164,8 @@ try {
       countryId,
       date,
     };
+
+    if (url) newBrief.url = url;
 
     if (placeFirst) {
       briefs.unshift(newBrief);

@@ -141,6 +141,7 @@ async function main() {
           country: source.country,
           countryId: source.countryId,
           date: formatDate(item.pubDate || item.isoDate || new Date()),
+          url: item.link,
         };
 
         newBriefs.push(brief);
