@@ -8,7 +8,7 @@ export function Footer() {
           <div className="md:col-span-2">
             <h3 className="serif text-foreground mb-4">Southern Brief</h3>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
-              Long-form analysis and news from the Southern Cone of South
+              Long-form opinion and news from the Southern Cone of South
               America. Covering politics, economy, culture, security, and
               religion in Brazil, Argentina, Chile, Uruguay, Paraguay, and
               Bolivia.
@@ -20,7 +20,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link to="/" className="hover:text-primary transition-colors">
-                  Analysis
+                  Opinion
                 </Link>
               </li>
               <li>

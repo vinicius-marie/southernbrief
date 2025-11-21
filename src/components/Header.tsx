@@ -21,7 +21,7 @@ export function Header() {
             <span className="sans text-[11px] tracking-[0.28em] uppercase text-muted-foreground">
               Southern Brief
             </span>
-            <span className="serif text-lg tracking-tight">Analysis</span>
+            <span className="serif text-lg tracking-tight">Opinion</span>
           </span>
         </Link>
 

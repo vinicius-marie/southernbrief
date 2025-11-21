@@ -30,7 +30,9 @@ const askOptional = async (question) => {
 
 const askBoolean = async (question, defaultValue = false) => {
   const hint = defaultValue ? "Y/n" : "y/N";
-  const answer = (await rl.question(`${question} (${hint}): `)).trim().toLowerCase();
+  const answer = (await rl.question(`${question} (${hint}): `))
+    .trim()
+    .toLowerCase();
   if (!answer) return defaultValue;
   return ["y", "yes"].includes(answer);
 };
@@ -47,9 +49,25 @@ const dataDir = path.join(__dirname, "..", "src", "data");
 const articlesPath = path.join(dataDir, "articles.json");
 const briefsPath = path.join(dataDir, "briefs.json");
 
+const buildDateLabel = () => {
+  const now = new Date();
+  const monthDay = now.toLocaleString("en-US", {
+    month: "short",
+    day: "2-digit",
+  });
+  const time = now.toLocaleString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+  return `${monthDay}, ${time}`;
+};
+
 const chooseContentType = async () => {
   while (true) {
-    const answer = (await rl.question("Add analysis or brief? (analysis): ")).trim().toLowerCase();
+    const answer = (await rl.question("Add analysis or brief? (analysis): "))
+      .trim()
+      .toLowerCase();
     if (!answer || answer === "analysis") return "analysis";
     if (answer === "brief") return "brief";
     console.log(gray("Please answer with 'analysis' or 'brief'.\n"));
@@ -74,11 +92,18 @@ try {
     const section = await ask("Section (e.g. Politics)");
     const country = await ask("Country");
     const defaultCountryId = slugify(country);
-    const countryId = await ask("Country ID", { required: false, defaultValue: defaultCountryId });
+    const countryId = await ask("Country ID", {
+      required: false,
+      defaultValue: defaultCountryId,
+    });
     const title = await ask("Headline");
     const standfirst = await ask("Standfirst / summary");
     const author = await ask("Author");
-    const date = await ask("Date label (e.g. Nov 21)");
+    const dateDefault = buildDateLabel();
+    const date = await ask("Date label (e.g. Nov 21, 14:30)", {
+      required: false,
+      defaultValue: dateDefault,
+    });
     const image = await askOptional("Image URL");
     const featured = await askBoolean("Make this the featured story?");
     const placeFirst = await askBoolean("Insert at top of list?", true);
@@ -118,8 +143,15 @@ try {
     const summary = await ask("Summary sentence");
     const country = await ask("Country");
     const defaultCountryId = slugify(country);
-    const countryId = await ask("Country ID", { required: false, defaultValue: defaultCountryId });
-    const date = await ask("Date label (e.g. Nov 21)");
+    const countryId = await ask("Country ID", {
+      required: false,
+      defaultValue: defaultCountryId,
+    });
+    const dateDefault = buildDateLabel();
+    const date = await ask("Date label (e.g. Nov 21, 14:30)", {
+      required: false,
+      defaultValue: dateDefault,
+    });
     const placeFirst = await askBoolean("Insert at top of list?", true);
 
     const newBrief = {
@@ -142,7 +174,9 @@ try {
     console.log(green("Brief saved to src/data/briefs.json"));
   }
 
-  console.log(yellow("\nNext steps: run git status, review the JSON diff, then commit."));
+  console.log(
+    yellow("\nNext steps: run git status, review the JSON diff, then commit."),
+  );
 } catch (error) {
   console.error("Failed to add content:", error.message);
   process.exitCode = 1;

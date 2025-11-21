@@ -17,7 +17,7 @@ export function ArticlePage() {
           className="mb-6 sans text-[14px]"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to analysis
+          Back to opinion
         </Button>
       </div>
 
@@ -174,7 +174,7 @@ export function ArticlePage() {
       {/* Related Articles */}
       <div className="bg-card border-t border-[rgba(31,34,39,0.1)] py-12">
         <div className="max-w-[680px] mx-auto px-6">
-          <h3 className="serif text-foreground mb-6">Related Analysis</h3>
+          <h3 className="serif text-foreground mb-6">Related Opinion</h3>
           <div className="space-y-6">
             {[
               {

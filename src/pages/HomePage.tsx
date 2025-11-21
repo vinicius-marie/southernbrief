@@ -60,12 +60,12 @@ export function HomePage() {
 
       <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="grid grid-cols-12 gap-6">
-          {/* Analysis Well - Main Column */}
+          {/* Opinion Well - Main Column */}
           <div className="col-span-12 lg:col-span-8">
             {/* Featured Story */}
             {featuredArticle && (
               <article className="bg-card rounded border border-[rgba(31,34,39,0.08)] hover:border-foreground/20 transition-[color,box-shadow] cursor-pointer group p-8 mb-10">
-                <div className="relative aspect-[16/9] mb-5 overflow-hidden rounded">
+                <div className="relative aspect-[16/9] mb-7 overflow-hidden rounded">
                   <ImageWithFallback
                     src={featuredArticle.image || ""}
                     alt={featuredArticle.title}
@@ -135,10 +135,10 @@ export function HomePage() {
               ))}
             </div>
 
-            {/* More Analysis - List Format */}
+            {/* More Opinion - List Format */}
             <div className="space-y-4 mt-12">
               <h3 className="text-[18px] serif text-foreground mb-3 pb-3 border-b border-[rgba(31,34,39,0.1)]">
-                More Analysis
+                More Opinion
               </h3>
               {remainingArticles.slice(4).map((article, index) => (
                 <article
@@ -170,7 +170,7 @@ export function HomePage() {
 
             {filteredArticles.length === 0 && (
               <div className="text-center py-12 text-muted-foreground sans">
-                No analysis articles available for this country.
+                No opinion articles available for this country.
               </div>
             )}
           </div>
@@ -225,8 +225,8 @@ export function HomePage() {
               <div className="bg-primary text-white rounded p-6">
                 <h3 className="serif text-[18px] mb-2">Weekly Digest</h3>
                 <p className="text-[13px] sans text-white/80 mb-4 leading-relaxed">
-                  Executive summary of the week's most important analysis, every
-                  Sunday.
+                  Executive summary of the week's most important opinion and
+                  briefs, every Sunday.
                 </p>
                 <input
                   type="email"

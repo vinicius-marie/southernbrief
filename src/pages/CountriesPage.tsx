@@ -10,8 +10,8 @@ export function CountriesPage() {
             Coverage across the Southern Cone
           </h1>
           <p className="text-sm sans text-muted-foreground max-w-2xl">
-            This section will group analysis and briefs by country. For now,
-            use the home page filters and Latest Briefs rail to navigate
+            This section will group opinion pieces and briefs by country. For
+            now, use the home page filters and Latest Briefs rail to navigate
             between Argentina, Brazil, Chile, Uruguay, Paraguay and Bolivia.
           </p>
         </header>

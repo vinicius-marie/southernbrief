@@ -126,7 +126,7 @@ export function AdminPage() {
             Southern Brief editorial workspace
           </h1>
           <p className="text-[14px] sans text-muted-foreground max-w-2xl">
-            Compose analysis pieces and briefs locally. When you are ready,
+            Compose opinion pieces and briefs locally. When you are ready,
             generate JSON and paste it into the corresponding data file in{" "}
             <code className="font-mono text-xs bg-muted px-1.5 py-0.5 rounded">
               src/data
@@ -144,7 +144,7 @@ export function AdminPage() {
           <TabsList>
             <TabsTrigger value="analysis">
               <FileText className="size-4" />
-              <span>Analysis</span>
+              <span>Opinion</span>
             </TabsTrigger>
             <TabsTrigger value="briefing">
               <Newspaper className="size-4" />
@@ -154,10 +154,10 @@ export function AdminPage() {
 
           <TabsContent value="analysis" className="mt-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Analysis form */}
+              {/* Opinion form */}
               <section className="bg-card rounded border border-[rgba(31,34,39,0.08)] p-6 space-y-5">
                 <h2 className="serif text-[20px] text-foreground">
-                  Analysis details
+                  Opinion details
                 </h2>
 
                 <div className="space-y-3">
@@ -227,7 +227,7 @@ export function AdminPage() {
                             date: e.target.value,
                           }))
                         }
-                        placeholder="Nov 21"
+                        placeholder="Nov 21, 14:30"
                       />
                     </div>
                   </div>
@@ -310,7 +310,7 @@ export function AdminPage() {
                           }))
                         }
                       />
-                      <span>Mark as featured analysis</span>
+                      <span>Mark as featured opinion</span>
                     </label>
                     <label className="inline-flex items-center gap-2 text-[13px] sans text-foreground">
                       <Checkbox
@@ -494,7 +494,7 @@ export function AdminPage() {
                             date: e.target.value,
                           }))
                         }
-                        placeholder="Nov 21"
+                        placeholder="Nov 21, 14:30"
                       />
                     </div>
                   </div>

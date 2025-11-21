@@ -43,12 +43,12 @@ Tabs
 ----
 
 - Two tabs at the top:
-  - **Analysis** – for long-form articles.
+  - **Opinion** – for long-form articles.
   - **Briefing** – for short news briefs.
 - Each tab keeps its own state, so you can flip between them without losing what you’ve typed.
 
-Analysis tab
-------------
+Opinion tab
+-----------
 
 - Maps exactly to an **Article** object:
   - `section`     – text (Politics, Economy, etc.).
@@ -57,7 +57,7 @@ Analysis tab
   - `title`       – headline.
   - `standfirst`  – 1–2 sentence standfirst / summary.
   - `author`      – byline.
-  - `date`        – display label (e.g. “Nov 22”).
+  - `date`        – display label (e.g. “Nov 22, 14:30”).
   - `image`       – optional image URL.
   - `featured`    – optional boolean; only set when the “Mark as featured analysis” box is checked.
   - Local-only flag: `insertAtTop` – whether you plan to paste this near the top of the JSON array.
@@ -80,9 +80,9 @@ Briefing tab
   - `summary`    – 1–2 sentence summary.
   - `country`    – human-readable country.
   - `countryId`  – slug (same rules as above).
-  - `date`       – display label (e.g. “Nov 22”).
+  - `date`       – display label (e.g. “Nov 22, 14:30”).
   - Local-only flag: `insertAtTop` – whether you paste at top of the array.
-- Country slug behaves the same as in the Analysis tab.
+- Country slug behaves the same as in the Opinion tab.
 - Live preview:
   - Matches a single “Latest Briefs” item (source, headline, summary, date + country tag).
 
@@ -92,10 +92,10 @@ Briefing tab
 
 Important: the Writing Studio never writes to disk, never calls `fs`, and never makes network requests. You **copy JSON by hand** and paste into the data files.
 
-Analysis JSON
--------------
+Opinion JSON
+-----------
 
-- In the Analysis tab:
+- In the Opinion tab:
   - Fill out the form.
   - Click **“Generate JSON”**.
   - The app builds a single `Article` object with the exact shape used by `src/data/articles.json`.
@@ -189,7 +189,7 @@ Briefing JSON
 1. Pull latest `main`.
 2. Run `npm run dev` and open `/admin`.
 3. For a new analysis:
-   - Use the Analysis tab in the Writing Studio.
+   - Use the Opinion tab in the Writing Studio.
    - Draft the piece and generate JSON.
    - Paste the new `Article` object into `src/data/articles.json` (ideally near the top).
 4. For a new brief:
