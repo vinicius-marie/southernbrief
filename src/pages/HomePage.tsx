@@ -177,7 +177,7 @@ export function HomePage() {
 
           {/* Briefing Rail - Right Sidebar */}
           <aside className="col-span-12 lg:col-span-4">
-            <div className="sticky top-24 space-y-6">
+            <div className="space-y-6">
               {/* Latest Briefs */}
               <div className="bg-card rounded border border-[rgba(31,34,39,0.08)]">
                 <div className="px-4 py-3 border-b border-[rgba(31,34,39,0.08)] bg-primary/5">
