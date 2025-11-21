@@ -45,18 +45,20 @@ export function Header() {
             <button className="text-muted-foreground hover:text-foreground transition-colors hover:underline underline-offset-4">
               About
             </button>
-            <NavLink
-              to="/admin"
-              className={({ isActive }) =>
-                `text-xs transition-colors ml-4 tracking-wide uppercase ${
-                  isActive
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                }`
-              }
-            >
-              Admin
-            </NavLink>
+            {import.meta.env.DEV && (
+              <NavLink
+                to="/admin"
+                className={({ isActive }) =>
+                  `text-xs transition-colors ml-4 tracking-wide uppercase ${
+                    isActive
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`
+                }
+              >
+                Writing Studio
+              </NavLink>
+            )}
           </nav>
         </div>
       </div>

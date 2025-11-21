@@ -17,7 +17,9 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/article" element={<ArticlePage />} />
           <Route path="/briefs" element={<BriefsPage />} />
-          <Route path="/admin" element={<AdminPage />} />
+          {import.meta.env.DEV && (
+            <Route path="/admin" element={<AdminPage />} />
+          )}
         </Routes>
       </main>
       {location.pathname !== "/admin" && <Footer />}

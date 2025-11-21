@@ -1,6 +1,19 @@
 import { TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import articlesData from "../data/articles.json";
 import briefsData from "../data/briefs.json";
+
+type Article = {
+  section: string;
+  country: string;
+  countryId: string;
+  title: string;
+  standfirst: string;
+  author: string;
+  date: string;
+  image?: string;
+  featured?: boolean;
+};
 
 type Brief = {
   source: string;
@@ -13,9 +26,14 @@ type Brief = {
 
 export function BreakingNews() {
   const navigate = useNavigate();
-  const briefs = (briefsData as Brief[]).slice(0, 8);
+  const articles = (articlesData as Article[]).slice(0, 4);
+  const briefs = (briefsData as Brief[]).slice(0, 4);
+  const items: string[] = [
+    ...articles.map((article) => `${article.section}: ${article.title}`),
+    ...briefs.map((brief) => `${brief.source} — ${brief.title}`),
+  ];
 
-  if (!briefs.length) return null;
+  if (!items.length) return null;
 
   const handleClick = () => {
     navigate("/briefs");
@@ -48,29 +66,21 @@ export function BreakingNews() {
             >
               <div className="relative overflow-hidden">
                 <div className="breaking-ticker-track inline-flex items-center gap-8 whitespace-nowrap">
-                  {briefs.map((brief, index) => (
+                  {items.map((item, index) => (
                     <span
                       key={`ticker-${index}`}
                       className="text-[13px] sm:text-[14px] sans flex items-center gap-2"
                     >
-                      <span className="uppercase tracking-wide text-[11px] sm:text-[12px] text-white/80">
-                        {brief.source}
-                      </span>
-                      <span className="text-white/70">—</span>
-                      <span className="line-clamp-1">{brief.title}</span>
+                      <span className="line-clamp-1">{item}</span>
                     </span>
                   ))}
-                  {briefs.map((brief, index) => (
+                  {items.map((item, index) => (
                     <span
                       key={`ticker-dup-${index}`}
                       className="text-[13px] sm:text-[14px] sans flex items-center gap-2"
                       aria-hidden="true"
                     >
-                      <span className="uppercase tracking-wide text-[11px] sm:text-[12px] text-white/80">
-                        {brief.source}
-                      </span>
-                      <span className="text-white/70">—</span>
-                      <span className="line-clamp-1">{brief.title}</span>
+                      <span className="line-clamp-1">{item}</span>
                     </span>
                   ))}
                 </div>

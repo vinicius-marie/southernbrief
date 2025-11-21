@@ -3,10 +3,10 @@
     "section": "Politics",
     "country": "Argentina",
     "countryId": "argentina",
-    "title": "Argentina's Legislative Stalemate Deepens Amid Economic Reforms",
-    "standfirst": "The Argentine Congress faces mounting pressure as President Milei's proposed economic reforms meet fierce resistance from traditional political blocs.",
+    "title": "Argentina Tests a New Fiscal Pact with Provinces",
+    "standfirst": "Buenos Aires seeks to trade fresh transfers for tighter provincial spending controls, reopening a long‑running debate over federalism in the Southern Cone.",
     "author": "Eduardo Martínez",
-    "date": "Nov 18",
+    "date": "Nov 22",
     "image": "https://images.unsplash.com/photo-1645462620421-781b28500309?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhcmdlbnRpbmElMjBnb3Zlcm5tZW50JTIwYnVpbGRpbmd8ZW58MXx8fHwxNzYzNTM3MDE5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     "featured": true
   },
@@ -14,74 +14,74 @@
     "section": "Economy",
     "country": "Brazil",
     "countryId": "brazil",
-    "title": "Brazil's Central Bank Independence Under Pressure from Lula Administration",
-    "standfirst": "As inflation targets remain elusive, the executive branch signals potential reforms to the central bank's autonomous status.",
+    "title": "Brazil Weighs the Cost of a Slower China",
+    "standfirst": "Soft Chinese demand is forcing Brasília to rethink its export mix, from iron ore and soy to higher‑value manufacturing and services.",
     "author": "Carolina Silva",
-    "date": "Nov 17",
+    "date": "Nov 21",
     "image": "https://images.unsplash.com/photo-1688992294723-7f1b47728cfa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxicmF6aWwlMjBwb2xpdGljYWx8ZW58MXx8fHwxNzYzNTM3MDE5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
   },
   {
-    "section": "Culture",
+    "section": "Constitution",
     "country": "Chile",
     "countryId": "chile",
-    "title": "The Conservative Resurgence in Chilean Constitutional Debates",
-    "standfirst": "After rejecting two progressive constitution drafts, Chile's electorate now favors traditional institutional frameworks.",
+    "title": "Chile’s Endless Constitutional Debate Enters a Quieter Phase",
+    "standfirst": "After two failed drafts and years of polarisation, Santiago’s political class appears to be settling for incremental reform over grand refoundation.",
     "author": "Rodrigo Vargas",
-    "date": "Nov 16",
+    "date": "Nov 20",
     "image": "https://images.unsplash.com/photo-1653406384710-08688ec6b979?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlsZSUyMGVjb25vbXl8ZW58MXx8fHwxNzYzNTM3MDE5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
   },
   {
     "section": "Security",
     "country": "Paraguay",
     "countryId": "paraguay",
-    "title": "Paraguay's Strategic Position in Regional Security Architecture",
-    "standfirst": "The landlocked nation quietly strengthens ties with both Brazil and Argentina while maintaining careful neutrality.",
+    "title": "Paraguay Quietly Rewires Its Security Alliances",
+    "standfirst": "As Brazil and Argentina modernise their forces, Asunción is upgrading its own capabilities while trying not to become a pawn in larger rivalries.",
     "author": "Miguel Torres",
-    "date": "Nov 15"
+    "date": "Nov 19"
   },
   {
-    "section": "Religion",
+    "section": "Society",
     "country": "Uruguay",
     "countryId": "uruguay",
-    "title": "Secularism Under Scrutiny: Uruguay Debates Religious Symbols in Public Space",
-    "standfirst": "Latin America's most secular nation confronts questions about religious expression following controversial municipal decisions.",
+    "title": "Uruguay Balances Secular Tradition with New Identity Politics",
+    "standfirst": "The region’s most secular democracy is revisiting how it handles religious symbols, gender debates and free‑speech norms in public institutions.",
     "author": "Isabel Fernández",
-    "date": "Nov 14"
+    "date": "Nov 18"
   },
   {
     "section": "Politics",
     "country": "Bolivia",
     "countryId": "bolivia",
-    "title": "Evo Morales Returns to Political Stage with New Party Structure",
-    "standfirst": "Former president's political movement reorganizes ahead of 2025 elections, testing MAS unity.",
+    "title": "Bolivia’s Fragmented Left Searches for a Post‑Morales Settlement",
+    "standfirst": "Factionalism inside MAS and a restless electorate are complicating efforts to define a successor project to Evo Morales’ long dominance.",
     "author": "Luis Mamani",
-    "date": "Nov 13"
+    "date": "Nov 17"
   },
   {
-    "section": "Economy",
+    "section": "Energy",
     "country": "Argentina",
     "countryId": "argentina",
-    "title": "Currency Controls Tighten as Dollar Reserves Dwindle",
-    "standfirst": "Central bank implements stricter foreign exchange restrictions amid mounting pressure on peso.",
+    "title": "Vaca Muerta Offers Relief, Not Salvation, for Argentina’s Finances",
+    "standfirst": "Shale exports are finally ramping up, but weak institutions and fiscal rigidities mean the promised windfall will be harder to lock in.",
     "author": "Pablo Ramírez",
-    "date": "Nov 12"
+    "date": "Nov 16"
   },
   {
-    "section": "Politics",
+    "section": "Institutions",
     "country": "Brazil",
     "countryId": "brazil",
-    "title": "Supreme Court Expands Powers in Disinformation Crackdown",
-    "standfirst": "Judicial branch assumes new regulatory role, raising constitutional questions about separation of powers.",
+    "title": "Brazil’s Supreme Court Grows More Assertive – and More Controversial",
+    "standfirst": "A court that helped save Brazilian democracy is now shaping policy in ways that worry both conservatives and institutional purists.",
     "author": "Ana Costa",
-    "date": "Nov 11"
+    "date": "Nov 15"
   },
   {
-    "section": "Economy",
+    "section": "Trade",
     "country": "Chile",
     "countryId": "chile",
-    "title": "Copper Prices Fluctuate Amid Chinese Demand Uncertainty",
-    "standfirst": "Mining sector braces for volatility as Asia's largest economy shows mixed signals.",
+    "title": "The Southern Cone Rethinks Mercosur’s Role in a Fragmented World",
+    "standfirst": "From Santiago to Montevideo, governments are reassessing how much diplomatic energy to spend on a bloc that has struggled to deliver big trade wins.",
     "author": "Claudia Morales",
-    "date": "Nov 10"
+    "date": "Nov 14"
   }
 ]

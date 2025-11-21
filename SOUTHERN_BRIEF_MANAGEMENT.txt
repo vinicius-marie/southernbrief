@@ -1,0 +1,200 @@
+Southern Brief – how to manage the project
+==========================================
+
+1. What this repo is
+--------------------
+
+- Static React + Vite + Tailwind site.
+- Content comes ONLY from JSON files under `src/data`:
+  - `src/data/articles.json` – long-form analysis articles.
+  - `src/data/briefs.json`   – short “wire-style” news briefs.
+- No backend, no runtime writes in production. GitHub Pages serves the built assets and JSON.
+
+
+2. Local development vs production
+----------------------------------
+
+- Local dev:
+  - `npm install`
+  - `npm run dev`
+  - App runs on `http://localhost:3000`.
+  - A dev-only “Writing Studio” is available at `http://localhost:3000/admin`.
+- Production build:
+  - `npm run build`
+  - Output goes to `build/` and is deployed to GitHub Pages via Actions.
+  - In production:
+    - There is **no `/admin` route**.
+    - There is **no Writing Studio link** in the header.
+    - The site is read-only, driven by the JSON data you commit.
+
+
+3. The Writing Studio (/admin) – analysis & briefs
+--------------------------------------------------
+
+Access
+------
+
+- Only available in development:
+  - Start dev server: `npm run dev`.
+  - Visit `/admin` – the header will show a “Writing Studio” link in dev.
+  - In production builds this route simply does not exist.
+
+Tabs
+----
+
+- Two tabs at the top:
+  - **Analysis** – for long-form articles.
+  - **Briefing** – for short news briefs.
+- Each tab keeps its own state, so you can flip between them without losing what you’ve typed.
+
+Analysis tab
+------------
+
+- Maps exactly to an **Article** object:
+  - `section`     – text (Politics, Economy, etc.).
+  - `country`     – text (e.g. “Argentina”).
+  - `countryId`   – slug (e.g. “argentina”).
+  - `title`       – headline.
+  - `standfirst`  – 1–2 sentence standfirst / summary.
+  - `author`      – byline.
+  - `date`        – display label (e.g. “Nov 22”).
+  - `image`       – optional image URL.
+  - `featured`    – optional boolean; only set when the “Mark as featured analysis” box is checked.
+  - Local-only flag: `insertAtTop` – whether you plan to paste this near the top of the JSON array.
+- Country slug helper:
+  - When you type a Country, `countryId` auto-fills using the same slug logic as the CLI:
+    - lowercased;
+    - non-alphanumeric → “-”;
+    - leading/trailing dashes removed.
+  - If you manually edit `countryId`, it stops auto-overwriting it.
+- Live preview:
+  - Right-hand side shows a card matching the home page style (section label, country tag, image, headline, standfirst, byline).
+  - Updates as you type so you can see how it will look on the site.
+
+Briefing tab
+------------
+
+- Maps exactly to a **Brief** object:
+  - `source`     – news outlet label (e.g. “La Nación”).
+  - `title`      – short brief headline.
+  - `summary`    – 1–2 sentence summary.
+  - `country`    – human-readable country.
+  - `countryId`  – slug (same rules as above).
+  - `date`       – display label (e.g. “Nov 22”).
+  - Local-only flag: `insertAtTop` – whether you paste at top of the array.
+- Country slug behaves the same as in the Analysis tab.
+- Live preview:
+  - Matches a single “Latest Briefs” item (source, headline, summary, date + country tag).
+
+
+4. Generating JSON (no automatic writes)
+----------------------------------------
+
+Important: the Writing Studio never writes to disk, never calls `fs`, and never makes network requests. You **copy JSON by hand** and paste into the data files.
+
+Analysis JSON
+-------------
+
+- In the Analysis tab:
+  - Fill out the form.
+  - Click **“Generate JSON”**.
+  - The app builds a single `Article` object with the exact shape used by `src/data/articles.json`.
+    - `image` is omitted if blank.
+    - `featured` is added only when the checkbox is selected.
+  - A read-only JSON block appears below.
+  - Use **“Copy JSON”** to copy the object to your clipboard.
+- To apply it:
+  - Open `src/data/articles.json`.
+  - Paste the JSON as a new object inside the top-level array.
+  - If you checked “Insert at top”, paste it near the beginning of the array so it appears as one of the newest stories.
+  - If you set `featured: true`, you may want to manually clear any existing `featured` flags in the JSON to guarantee only one featured story at a time (the CLI helper does this automatically).
+
+Briefing JSON
+-------------
+
+- In the Briefing tab:
+  - Fill out the form.
+  - Click **“Generate JSON”**.
+  - The app builds a single `Brief` object with the exact shape used by `src/data/briefs.json`.
+  - Copy it with **“Copy JSON”**.
+- To apply it:
+  - Open `src/data/briefs.json`.
+  - Paste the object into the array.
+  - If “Insert at top” is checked, paste it near the top so new briefs appear first.
+
+
+5. CLI Helper vs Writing Studio
+-------------------------------
+
+- CLI helper (`scripts/add-article.mjs`):
+  - Run with `npm run add:article`.
+  - Asks whether you are adding **analysis** or **brief**.
+  - Walks you through all fields in the terminal.
+  - Applies the same slug logic and, for analysis, automatically clears older `featured` flags when you mark a new article as featured.
+  - Writes directly to `src/data/articles.json` or `src/data/briefs.json`.
+- Writing Studio (`/admin` in dev):
+  - Visual, in-browser editor with live preview.
+  - Produces JSON you paste manually.
+  - Does not touch the filesystem; safer if you want to inspect diffs before saving.
+- You can use either path; just don’t edit the data files concurrently in conflicting ways.
+
+
+6. Breaking News ticker – how it stays fresh
+-------------------------------------------
+
+- Component: `src/components/BreakingNews.tsx`.
+- Content source:
+  - Takes a small slice of the most recent articles and briefs:
+    - e.g. first 4 articles from `src/data/articles.json`.
+    - first 4 briefs from `src/data/briefs.json`.
+  - Builds text items like:
+    - `"Section: Article headline"` for analysis.
+    - `"Source — Brief headline"` for briefs.
+- Ticker behaviour:
+  - Inline flex row of these items is rendered twice back-to-back.
+  - CSS animation (`breaking-ticker-scroll`) moves the track from right to left.
+  - Because it translates by 50% of its own width and the items are duplicated, the ticker loops seamlessly with no gaps.
+- To make it feel “new”:
+  - Keep the top of both JSON arrays filled with your most current work.
+  - The ticker always reflects the newest entries at the front of those arrays.
+  - Refreshing content = adding new items (or moving them to the top) in `articles.json` and `briefs.json`.
+
+
+7. Deployment and safety
+------------------------
+
+- Deploy:
+  - Push to `main`.
+  - GitHub Actions workflow `Deploy Site` runs:
+    - `npm ci`
+    - `npm run build`
+    - Publishes `build/` to GitHub Pages.
+  - Live URL: `https://<your-user>.github.io/southernbrief/`.
+- Safety / attack surface:
+  - There is **no auth, no cookies, no APIs**.
+  - `/admin` and “Writing Studio” exist only when `import.meta.env.DEV` is true (development mode).
+  - Production bundle contains:
+    - Static React pages.
+    - Static JSON under `src/data` baked into the bundle.
+    - Static CSS and JS served by GitHub Pages.
+  - To “update the site”, you:
+    - Edit JSON locally.
+    - Commit the changes.
+    - Push to `main`, which triggers a new static deploy.
+
+
+8. Regular workflow to keep news fresh
+--------------------------------------
+
+1. Pull latest `main`.
+2. Run `npm run dev` and open `/admin`.
+3. For a new analysis:
+   - Use the Analysis tab in the Writing Studio.
+   - Draft the piece and generate JSON.
+   - Paste the new `Article` object into `src/data/articles.json` (ideally near the top).
+4. For a new brief:
+   - Use the Briefing tab.
+   - Generate JSON and paste into `src/data/briefs.json` at or near the top of the array.
+5. Optionally run `npm run build` locally as a sanity check.
+6. Commit the updated JSON files with a meaningful message.
+7. Push to `main` and let GitHub Actions redeploy.
