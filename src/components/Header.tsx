@@ -28,6 +28,7 @@ export function Header() {
         <nav className="flex items-center gap-6 ml-6">
           <NavLink
             to="/"
+            end
             className={({ isActive }) =>
               [
                 baseNavLinkClasses,
