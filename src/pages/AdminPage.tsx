@@ -2,59 +2,35 @@ import { Plus, LayoutDashboard, FileText, Newspaper, MapPin, Search, MoreVertica
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import { Input } from "../components/ui/input";
+import articlesData from "../data/articles.json";
+import briefsData from "../data/briefs.json";
+
+type AdminContentRow = {
+  title: string;
+  country: string;
+  type: "Analysis" | "Brief";
+  status: string;
+  date: string;
+};
 
 export function AdminPage() {
-  const articles = [
-    {
-      title: "Argentina's Legislative Stalemate Deepens Amid Economic Reforms",
-      country: "Argentina",
-      type: "Analysis",
+  const articles: AdminContentRow[] = [
+    ...articlesData.map((article) => ({
+      title: article.title,
+      country: article.country,
+      type: "Analysis" as const,
       status: "Published",
-      date: "Nov 18, 2025"
-    },
-    {
-      title: "Brazil's Central Bank Independence Under Pressure",
-      country: "Brazil",
-      type: "Analysis",
+      date: article.date,
+    })),
+    ...briefsData.map((brief) => ({
+      title: brief.title,
+      country: brief.country,
+      type: "Brief" as const,
       status: "Published",
-      date: "Nov 17, 2025"
-    },
-    {
-      title: "The Conservative Resurgence in Chilean Constitutional Debates",
-      country: "Chile",
-      type: "Analysis",
-      status: "Published",
-      date: "Nov 16, 2025"
-    },
-    {
-      title: "Paraguay's Strategic Position in Regional Security",
-      country: "Paraguay",
-      type: "Analysis",
-      status: "Draft",
-      date: "Nov 15, 2025"
-    },
-    {
-      title: "Argentine peso stabilizes after central bank intervention",
-      country: "Argentina",
-      type: "Brief",
-      status: "Published",
-      date: "Nov 19, 2025"
-    },
-    {
-      title: "Brazilian Supreme Court upholds Amazon protection laws",
-      country: "Brazil",
-      type: "Brief",
-      status: "Published",
-      date: "Nov 19, 2025"
-    },
-    {
-      title: "Uruguay's Economic Diversification Strategy",
-      country: "Uruguay",
-      type: "Analysis",
-      status: "Draft",
-      date: "Nov 14, 2025"
-    }
+      date: brief.date,
+    })),
   ];
+
 
   return (
     <div className="flex h-screen bg-background">

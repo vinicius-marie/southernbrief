@@ -4,6 +4,29 @@ import { CountryTag } from "../components/CountryTag";
 import { SectionLabel } from "../components/SectionLabel";
 import { BreakingNews } from "../components/BreakingNews";
 import { CountryTabs } from "../components/CountryTabs";
+import articlesData from "../data/articles.json";
+import briefsData from "../data/briefs.json";
+
+type Article = {
+  section: string;
+  country: string;
+  countryId: string;
+  title: string;
+  standfirst: string;
+  author: string;
+  date: string;
+  image?: string;
+  featured?: boolean;
+};
+
+type Brief = {
+  source: string;
+  title: string;
+  summary: string;
+  country: string;
+  countryId: string;
+  date: string;
+};
 
 interface HomePageProps {
   onNavigate: (page: "article" | "briefs") => void;
@@ -12,207 +35,9 @@ interface HomePageProps {
 export function HomePage({ onNavigate }: HomePageProps) {
   const [selectedCountry, setSelectedCountry] = useState("all");
 
-  const allArticles = [
-    {
-      section: "Politics",
-      country: "Argentina",
-      countryId: "argentina",
-      title: "Argentina's Legislative Stalemate Deepens Amid Economic Reforms",
-      standfirst:
-        "The Argentine Congress faces mounting pressure as President Milei's proposed economic reforms meet fierce resistance from traditional political blocs.",
-      author: "Eduardo Martínez",
-      date: "Nov 18",
-      image:
-        "https://images.unsplash.com/photo-1645462620421-781b28500309?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhcmdlbnRpbmElMjBnb3Zlcm5tZW50JTIwYnVpbGRpbmd8ZW58MXx8fHwxNzYzNTM3MDE5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      featured: true,
-    },
-    {
-      section: "Economy",
-      country: "Brazil",
-      countryId: "brazil",
-      title:
-        "Brazil's Central Bank Independence Under Pressure from Lula Administration",
-      standfirst:
-        "As inflation targets remain elusive, the executive branch signals potential reforms to the central bank's autonomous status.",
-      author: "Carolina Silva",
-      date: "Nov 17",
-      image:
-        "https://images.unsplash.com/photo-1688992294723-7f1b47728cfa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxicmF6aWwlMjBwb2xpdGljYWx8ZW58MXx8fHwxNzYzNTM3MDE5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    },
-    {
-      section: "Culture",
-      country: "Chile",
-      countryId: "chile",
-      title: "The Conservative Resurgence in Chilean Constitutional Debates",
-      standfirst:
-        "After rejecting two progressive constitution drafts, Chile's electorate now favors traditional institutional frameworks.",
-      author: "Rodrigo Vargas",
-      date: "Nov 16",
-      image:
-        "https://images.unsplash.com/photo-1653406384710-08688ec6b979?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlsZSUyMGVjb25vbXl8ZW58MXx8fHwxNzYzNTM3MDE5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    },
-    {
-      section: "Security",
-      country: "Paraguay",
-      countryId: "paraguay",
-      title: "Paraguay's Strategic Position in Regional Security Architecture",
-      standfirst:
-        "The landlocked nation quietly strengthens ties with both Brazil and Argentina while maintaining careful neutrality.",
-      author: "Miguel Torres",
-      date: "Nov 15",
-    },
-    {
-      section: "Religion",
-      country: "Uruguay",
-      countryId: "uruguay",
-      title:
-        "Secularism Under Scrutiny: Uruguay Debates Religious Symbols in Public Space",
-      standfirst:
-        "Latin America's most secular nation confronts questions about religious expression following controversial municipal decisions.",
-      author: "Isabel Fernández",
-      date: "Nov 14",
-    },
-    {
-      section: "Politics",
-      country: "Bolivia",
-      countryId: "bolivia",
-      title: "Evo Morales Returns to Political Stage with New Party Structure",
-      standfirst:
-        "Former president's political movement reorganizes ahead of 2025 elections, testing MAS unity.",
-      author: "Luis Mamani",
-      date: "Nov 13",
-    },
-    {
-      section: "Economy",
-      country: "Argentina",
-      countryId: "argentina",
-      title: "Currency Controls Tighten as Dollar Reserves Dwindle",
-      standfirst:
-        "Central bank implements stricter foreign exchange restrictions amid mounting pressure on peso.",
-      author: "Pablo Ramírez",
-      date: "Nov 12",
-    },
-    {
-      section: "Politics",
-      country: "Brazil",
-      countryId: "brazil",
-      title: "Supreme Court Expands Powers in Disinformation Crackdown",
-      standfirst:
-        "Judicial branch assumes new regulatory role, raising constitutional questions about separation of powers.",
-      author: "Ana Costa",
-      date: "Nov 11",
-    },
-    {
-      section: "Economy",
-      country: "Chile",
-      countryId: "chile",
-      title: "Copper Prices Fluctuate Amid Chinese Demand Uncertainty",
-      standfirst:
-        "Mining sector braces for volatility as Asia's largest economy shows mixed signals.",
-      author: "Claudia Morales",
-      date: "Nov 10",
-    },
-  ];
+  const allArticles = articlesData as Article[];
 
-  const allBriefs = [
-    {
-      source: "La Nación",
-      title: "Peso stabilizes after central bank intervention",
-      summary:
-        "Currency markets respond positively to coordinated policy measures.",
-      country: "Argentina",
-      countryId: "argentina",
-      date: "Nov 19",
-    },
-    {
-      source: "O Globo",
-      title: "Supreme Court upholds Amazon protection laws",
-      summary: "Landmark ruling strengthens environmental enforcement.",
-      country: "Brazil",
-      countryId: "brazil",
-      date: "Nov 19",
-    },
-    {
-      source: "El Mercurio",
-      title: "Lithium production reaches record levels",
-      summary: "Mining sector reports exceed government projections.",
-      country: "Chile",
-      countryId: "chile",
-      date: "Nov 18",
-    },
-    {
-      source: "El Observador",
-      title: "New trade agreement with Asian partners",
-      summary: "Economic diversification strategy gains momentum.",
-      country: "Uruguay",
-      countryId: "uruguay",
-      date: "Nov 18",
-    },
-    {
-      source: "ABC Color",
-      title: "$2B infrastructure investment announced",
-      summary: "Government unveils transport network modernization.",
-      country: "Paraguay",
-      countryId: "paraguay",
-      date: "Nov 17",
-    },
-    {
-      source: "Los Tiempos",
-      title: "Inflation shows modest improvement",
-      summary: "Monthly figures suggest stabilization efforts working.",
-      country: "Bolivia",
-      countryId: "bolivia",
-      date: "Nov 17",
-    },
-    {
-      source: "Folha",
-      title: "Congress debates pension reform amendments",
-      summary: "Coalition proposes retirement age modifications.",
-      country: "Brazil",
-      countryId: "brazil",
-      date: "Nov 17",
-    },
-    {
-      source: "Clarín",
-      title: "Energy crisis eases in Buenos Aires",
-      summary: "Power supply concerns diminish with new capacity.",
-      country: "Argentina",
-      countryId: "argentina",
-      date: "Nov 16",
-    },
-    {
-      source: "La Tercera",
-      title: "Education protests enter third week",
-      summary: "Students maintain pressure for funding reforms.",
-      country: "Chile",
-      countryId: "chile",
-      date: "Nov 16",
-    },
-    {
-      source: "El País",
-      title: "Montevideo hosts security summit",
-      summary: "Regional cooperation on drug trafficking discussed.",
-      country: "Uruguay",
-      countryId: "uruguay",
-      date: "Nov 15",
-    },
-    {
-      source: "Última Hora",
-      title: "Agricultural exports reach historic highs",
-      summary: "Soybean and beef shipments exceed projections.",
-      country: "Paraguay",
-      countryId: "paraguay",
-      date: "Nov 15",
-    },
-    {
-      source: "La Razón",
-      title: "Bolivia seeks debt restructuring",
-      summary: "Finance ministry initiates creditor negotiations.",
-      country: "Bolivia",
-      countryId: "bolivia",
-      date: "Nov 14",
-    },
-  ];
+  const allBriefs = briefsData as Brief[];
 
   const filteredArticles =
     selectedCountry === "all"
