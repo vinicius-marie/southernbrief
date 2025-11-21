@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { HomePage } from "./pages/HomePage";
@@ -7,18 +7,20 @@ import { BriefsPage } from "./pages/BriefsPage";
 import { AdminPage } from "./pages/AdminPage";
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'article' | 'briefs' | 'admin'>('home');
+  const location = useLocation();
 
   return (
     <div className="min-h-screen bg-background">
-      <Header currentPage={currentPage} onNavigate={setCurrentPage} />
+      <Header />
       <main>
-        {currentPage === 'home' && <HomePage onNavigate={setCurrentPage} />}
-        {currentPage === 'article' && <ArticlePage onNavigate={setCurrentPage} />}
-        {currentPage === 'briefs' && <BriefsPage />}
-        {currentPage === 'admin' && <AdminPage />}
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/article" element={<ArticlePage />} />
+          <Route path="/briefs" element={<BriefsPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+        </Routes>
       </main>
-      {currentPage !== 'admin' && <Footer />}
+      {location.pathname !== "/admin" && <Footer />}
     </div>
   );
 }

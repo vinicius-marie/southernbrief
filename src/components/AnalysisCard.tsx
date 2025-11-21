@@ -1,6 +1,7 @@
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { CountryTag } from "./CountryTag";
 import { SectionLabel } from "./SectionLabel";
+import { useNavigate } from "react-router-dom";
 
 interface AnalysisCardProps {
   section: string;
@@ -10,38 +11,49 @@ interface AnalysisCardProps {
   author: string;
   date: string;
   image?: string;
-  size?: 'default' | 'compact';
-  onNavigate?: () => void;
+  size?: "default" | "compact";
+  href?: string;
 }
 
-export function AnalysisCard({ 
-  section, 
-  country, 
-  title, 
-  summary, 
-  author, 
-  date, 
+export function AnalysisCard({
+  section,
+  country,
+  title,
+  summary,
+  author,
+  date,
   image,
-  size = 'default',
-  onNavigate
+  size = "default",
+  href = "/article",
 }: AnalysisCardProps) {
-  if (size === 'compact') {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (href.startsWith("http")) {
+      window.open(href, "_blank", "noopener,noreferrer");
+    } else {
+      navigate(href);
+    }
+  };
+
+  if (size === "compact") {
     return (
-      <article className="bg-white border border-slate-200 rounded-sm p-6 hover:border-slate-300 transition-colors cursor-pointer group" onClick={onNavigate}>
+      <article
+        className="bg-white border border-slate-200 rounded-sm p-6 hover:border-slate-300 transition-colors cursor-pointer group"
+        onClick={handleClick}
+      >
         <div className="space-y-3">
           <div className="flex items-center gap-3">
             <SectionLabel>{section}</SectionLabel>
             <CountryTag country={country} />
           </div>
-          
+
           <h3 className="serif text-slate-900 group-hover:text-slate-700 transition-colors">
             {title}
           </h3>
-          
-          <p className="text-sm text-slate-600 leading-relaxed">
-            {summary}
-          </p>
-          
+
+          <p className="text-sm text-slate-600 leading-relaxed">{summary}</p>
+
           <div className="flex items-center gap-3 text-xs text-slate-500">
             <span>{author}</span>
             <span>•</span>
@@ -53,7 +65,10 @@ export function AnalysisCard({
   }
 
   return (
-    <article className="bg-white border border-slate-200 rounded-sm overflow-hidden hover:border-slate-300 transition-colors cursor-pointer group" onClick={onNavigate}>
+    <article
+      className="bg-white border border-slate-200 rounded-sm overflow-hidden hover:border-slate-300 transition-colors cursor-pointer group"
+      onClick={handleClick}
+    >
       {image && (
         <div className="relative aspect-[16/9] overflow-hidden">
           <ImageWithFallback
@@ -63,21 +78,19 @@ export function AnalysisCard({
           />
         </div>
       )}
-      
+
       <div className="p-6 space-y-4">
         <div className="flex items-center gap-3">
           <SectionLabel>{section}</SectionLabel>
           <CountryTag country={country} />
         </div>
-        
+
         <h3 className="serif text-slate-900 group-hover:text-slate-700 transition-colors">
           {title}
         </h3>
-        
-        <p className="text-sm text-slate-600 leading-relaxed">
-          {summary}
-        </p>
-        
+
+        <p className="text-sm text-slate-600 leading-relaxed">{summary}</p>
+
         <div className="flex items-center gap-3 text-xs text-slate-500">
           <span>{author}</span>
           <span>•</span>

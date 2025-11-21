@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { CountryTag } from "../components/CountryTag";
 import { SectionLabel } from "../components/SectionLabel";
@@ -28,12 +29,9 @@ type Brief = {
   date: string;
 };
 
-interface HomePageProps {
-  onNavigate: (page: "article" | "briefs") => void;
-}
-
-export function HomePage({ onNavigate }: HomePageProps) {
+export function HomePage() {
   const [selectedCountry, setSelectedCountry] = useState("all");
+  const navigate = useNavigate();
 
   const allArticles = articlesData as Article[];
 
@@ -57,7 +55,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
   return (
     <div className="bg-background min-h-screen">
-      <BreakingNews onNavigate={onNavigate} />
+      <BreakingNews />
       <CountryTabs selected={selectedCountry} onSelect={setSelectedCountry} />
 
       <div className="max-w-7xl mx-auto px-6 py-8">
@@ -66,10 +64,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
           <div className="col-span-12 lg:col-span-8">
             {/* Featured Story */}
             {featuredArticle && (
-              <article
-                className="bg-white rounded border border-[rgba(31,34,39,0.08)] p-8 mb-8 cursor-pointer group"
-                onClick={() => onNavigate("article")}
-              >
+              <article className="bg-white rounded border border-[rgba(31,34,39,0.08)] p-8 mb-8 cursor-pointer group">
                 <div className="relative aspect-[16/9] mb-6 overflow-hidden rounded">
                   <ImageWithFallback
                     src={featuredArticle.image || ""}
@@ -105,7 +100,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 <article
                   key={index}
                   className="bg-white rounded border border-[rgba(31,34,39,0.08)] p-5 cursor-pointer group"
-                  onClick={() => onNavigate("article")}
+                  onClick={() => navigate("/article")}
                 >
                   {article.image && (
                     <div className="relative aspect-[16/10] mb-4 overflow-hidden rounded">
@@ -148,7 +143,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
                 <article
                   key={index}
                   className="bg-white rounded border border-[rgba(31,34,39,0.08)] p-5 cursor-pointer group"
-                  onClick={() => onNavigate("article")}
+                  onClick={() => navigate("/article")}
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <SectionLabel>{article.section}</SectionLabel>
@@ -217,7 +212,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
                 <div className="px-4 py-3 border-t border-[rgba(31,34,39,0.08)]">
                   <button
-                    onClick={() => onNavigate("briefs")}
+                    onClick={() => navigate("/briefs")}
                     className="text-[13px] sans text-primary hover:text-primary/80 transition-colors"
                   >
                     View all briefs →

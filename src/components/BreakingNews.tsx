@@ -1,12 +1,10 @@
 import { TrendingUp, X } from "lucide-react";
 import { CountryTag } from "./CountryTag";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-interface BreakingNewsProps {
-  onNavigate: (page: "article") => void;
-}
-
-export function BreakingNews({ onNavigate }: BreakingNewsProps) {
+export function BreakingNews() {
+  const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -45,7 +43,7 @@ export function BreakingNews({ onNavigate }: BreakingNewsProps) {
 
           <div className="flex-1 min-w-0">
             <button
-              onClick={() => onNavigate("article")}
+              onClick={() => navigate("/article")}
               className="w-full text-left hover:text-white/90 transition-colors"
             >
               <div className="flex items-center gap-2 sm:gap-3">

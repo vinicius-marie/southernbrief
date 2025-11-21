@@ -1,55 +1,58 @@
-interface HeaderProps {
-  currentPage: string;
-  onNavigate: (page: 'home' | 'article' | 'briefs' | 'admin') => void;
-}
+import { Link, NavLink } from "react-router-dom";
 
-export function Header({ currentPage, onNavigate }: HeaderProps) {
+export function Header() {
   return (
     <header className="bg-primary border-b border-[rgba(255,255,255,0.1)] sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <button 
-            onClick={() => onNavigate('home')}
+          <Link
+            to="/"
             className="serif text-white tracking-tight hover:text-white/80 transition-colors text-xl"
           >
             Southern Brief
-          </button>
+          </Link>
 
           {/* Navigation */}
           <nav className="flex items-center gap-8">
-            <button 
-              onClick={() => onNavigate('home')}
-              className={`text-sm sans transition-colors ${
-                currentPage === 'home' 
-                  ? 'text-white' 
-                  : 'text-white/70 hover:text-white'
-              }`}
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `text-sm sans transition-colors ${
+                  isActive ? "text-white" : "text-white/70 hover:text-white"
+                }`
+              }
             >
               Analysis
-            </button>
-            <button 
-              onClick={() => onNavigate('briefs')}
-              className={`text-sm sans transition-colors ${
-                currentPage === 'briefs' 
-                  ? 'text-white' 
-                  : 'text-white/70 hover:text-white'
-              }`}
+            </NavLink>
+            <NavLink
+              to="/briefs"
+              className={({ isActive }) =>
+                `text-sm sans transition-colors ${
+                  isActive ? "text-white" : "text-white/70 hover:text-white"
+                }`
+              }
             >
               Briefs
-            </button>
+            </NavLink>
             <button className="text-sm sans text-white/70 hover:text-white transition-colors">
               Countries
             </button>
             <button className="text-sm sans text-white/70 hover:text-white transition-colors">
               About
             </button>
-            <button 
-              onClick={() => onNavigate('admin')}
-              className="text-xs sans text-white/40 hover:text-white/60 transition-colors ml-4"
+            <NavLink
+              to="/admin"
+              className={({ isActive }) =>
+                `text-xs sans transition-colors ml-4 ${
+                  isActive
+                    ? "text-white/80"
+                    : "text-white/40 hover:text-white/60"
+                }`
+              }
             >
               Admin
-            </button>
+            </NavLink>
           </nav>
         </div>
       </div>
