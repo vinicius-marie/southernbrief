@@ -74,6 +74,7 @@ export function AnalysisCard({
           <ImageWithFallback
             src={image}
             alt={title}
+            loading="lazy"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           />
         </div>

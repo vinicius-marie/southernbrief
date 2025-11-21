@@ -339,6 +339,7 @@ export function AdminPage() {
                       <ImageWithFallback
                         src={articleDraft.image}
                         alt={articleDraft.title || "Preview image"}
+                        loading="lazy"
                         className="w-full h-full object-cover"
                       />
                     </div>
