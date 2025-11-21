@@ -172,7 +172,7 @@ export function ArticlePage() {
       </article>
 
       {/* Related Articles */}
-      <div className="bg-white border-t border-[rgba(31,34,39,0.1)] py-12">
+      <div className="bg-card border-t border-[rgba(31,34,39,0.1)] py-12">
         <div className="max-w-[680px] mx-auto px-6">
           <h3 className="serif text-foreground mb-6">Related Analysis</h3>
           <div className="space-y-6">

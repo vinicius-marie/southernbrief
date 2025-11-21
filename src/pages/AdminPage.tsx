@@ -155,7 +155,7 @@ export function AdminPage() {
           <TabsContent value="analysis" className="mt-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Analysis form */}
-              <section className="bg-white rounded border border-[rgba(31,34,39,0.08)] p-6 space-y-5">
+              <section className="bg-card rounded border border-[rgba(31,34,39,0.08)] p-6 space-y-5">
                 <h2 className="serif text-[20px] text-foreground">
                   Analysis details
                 </h2>
@@ -329,11 +329,11 @@ export function AdminPage() {
               </section>
 
               {/* Analysis preview */}
-              <section className="bg-white rounded border border-[rgba(31,34,39,0.08)] p-6">
+              <section className="bg-card rounded border border-[rgba(31,34,39,0.08)] p-6">
                 <h2 className="serif text-[20px] text-foreground mb-4">
                   Live preview
                 </h2>
-                <article className="bg-white rounded border border-[rgba(31,34,39,0.08)] p-5 cursor-default group">
+                <article className="bg-card rounded border border-[rgba(31,34,39,0.08)] p-5 cursor-default group">
                   {articleDraft.image && (
                     <div className="relative aspect-[16/10] mb-4 overflow-hidden rounded">
                       <ImageWithFallback
@@ -422,7 +422,7 @@ export function AdminPage() {
           <TabsContent value="briefing" className="mt-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Briefing form */}
-              <section className="bg-white rounded border border-[rgba(31,34,39,0.08)] p-6 space-y-5">
+              <section className="bg-card rounded border border-[rgba(31,34,39,0.08)] p-6 space-y-5">
                 <h2 className="serif text-[20px] text-foreground">
                   Briefing details
                 </h2>
@@ -551,11 +551,11 @@ export function AdminPage() {
               </section>
 
               {/* Briefing preview */}
-              <section className="bg-white rounded border border-[rgba(31,34,39,0.08)] p-6">
+              <section className="bg-card rounded border border-[rgba(31,34,39,0.08)] p-6">
                 <h2 className="serif text-[20px] text-foreground mb-4">
                   Live preview
                 </h2>
-                <article className="bg-white rounded border border-[rgba(31,34,39,0.08)] p-5 cursor-default">
+                <article className="bg-card rounded border border-[rgba(31,34,39,0.08)] p-5 cursor-default">
                   <span className="text-[12px] sans text-muted-foreground font-semibold">
                     {briefDraft.source || "Source"}
                   </span>

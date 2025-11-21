@@ -64,7 +64,7 @@ export function HomePage() {
           <div className="col-span-12 lg:col-span-8">
             {/* Featured Story */}
             {featuredArticle && (
-              <article className="bg-white rounded border border-[rgba(31,34,39,0.08)] hover:border-foreground/20 transition-[color,box-shadow] cursor-pointer group p-8 mb-10">
+              <article className="bg-card rounded border border-[rgba(31,34,39,0.08)] hover:border-foreground/20 transition-[color,box-shadow] cursor-pointer group p-8 mb-10">
                 <div className="relative aspect-[16/9] mb-5 overflow-hidden rounded">
                   <ImageWithFallback
                     src={featuredArticle.image || ""}
@@ -99,7 +99,7 @@ export function HomePage() {
               {remainingArticles.slice(0, 4).map((article, index) => (
                 <article
                   key={index}
-                  className="bg-white rounded border border-[rgba(31,34,39,0.08)] hover:border-foreground/20 transition-[color,box-shadow] cursor-pointer group p-5"
+                  className="bg-card rounded border border-[rgba(31,34,39,0.08)] hover:border-foreground/20 transition-[color,box-shadow] cursor-pointer group p-5"
                   onClick={() => navigate("/article")}
                 >
                   {article.image && (
@@ -143,7 +143,7 @@ export function HomePage() {
               {remainingArticles.slice(4).map((article, index) => (
                 <article
                   key={index}
-                  className="bg-white rounded border border-[rgba(31,34,39,0.08)] hover:border-foreground/20 transition-[color,box-shadow] cursor-pointer group p-5"
+                  className="bg-card rounded border border-[rgba(31,34,39,0.08)] hover:border-foreground/20 transition-[color,box-shadow] cursor-pointer group p-5"
                   onClick={() => navigate("/article")}
                 >
                   <div className="flex items-center gap-3 mb-2">
@@ -179,7 +179,7 @@ export function HomePage() {
           <aside className="col-span-12 lg:col-span-4">
             <div className="sticky top-24 space-y-6">
               {/* Latest Briefs */}
-              <div className="bg-white rounded border border-[rgba(31,34,39,0.08)]">
+              <div className="bg-card rounded border border-[rgba(31,34,39,0.08)]">
                 <div className="px-4 py-3 border-b border-[rgba(31,34,39,0.08)] bg-primary/5">
                   <h3 className="text-sm sans text-foreground uppercase tracking-wide">
                     Latest Briefs
