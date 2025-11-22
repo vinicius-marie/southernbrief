@@ -5,4 +5,5 @@ dist
 __codex_write_check
 *.log
 figma-export/
+figma-export-view/
 southernbrief-figma-export.zip
