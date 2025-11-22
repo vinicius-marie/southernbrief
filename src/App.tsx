@@ -11,7 +11,6 @@ import { BrasilPage } from "./pages/BrasilPage";
 import { ChilePage } from "./pages/ChilePage";
 import { ParaguayPage } from "./pages/ParaguayPage";
 import { BoliviaPage } from "./pages/BoliviaPage";
-import { VenezuelaPage } from "./pages/VenezuelaPage";
 import { UruguayPage } from "./pages/UruguayPage";
 import { AdminPage } from "./pages/AdminPage";
 
@@ -33,7 +32,6 @@ export default function App() {
           <Route path="/chile" element={<ChilePage />} />
           <Route path="/paraguay" element={<ParaguayPage />} />
           <Route path="/bolivia" element={<BoliviaPage />} />
-          <Route path="/venezuela" element={<VenezuelaPage />} />
           <Route path="/uruguay" element={<UruguayPage />} />
           {import.meta.env.DEV && (
             <Route path="/admin" element={<AdminPage />} />
