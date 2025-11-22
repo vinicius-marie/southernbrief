@@ -4,3 +4,5 @@ dist
 .DS_Store
 __codex_write_check
 *.log
+figma-export/
+southernbrief-figma-export.zip
