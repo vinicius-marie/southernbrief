@@ -6,6 +6,7 @@ export default defineConfig({
   base: "/southernbrief/",
   plugins: [react()],
   build: {
+    target: "esnext",
     outDir: "dist",
     emptyOutDir: true,
   },
