@@ -59,19 +59,13 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <span className="hover:text-primary transition-colors cursor-default">
-                  Editorial Policy
-                </span>
+                <span>Editorial Policy</span>
               </li>
               <li>
-                <span className="hover:text-primary transition-colors cursor-default">
-                  Contact
-                </span>
+                <span>Contact</span>
               </li>
               <li>
-                <span className="hover:text-primary transition-colors cursor-default">
-                  Privacy
-                </span>
+                <span>Privacy</span>
               </li>
             </ul>
           </div>
