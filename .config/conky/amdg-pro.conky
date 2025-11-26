@@ -1,0 +1,29 @@
+conky.config = {
+  own_window = true,
+  own_window_type = 'override',                      -- no reserved space
+  own_window_argb_visual = true,
+  own_window_argb_value = 150,                        -- more transparent
+  own_window_hints = 'undecorated,sticky,skip_taskbar,skip_pager,below',
+  double_buffer = true,
+  use_xft = true, font = 'Monospace:size=10',
+  default_color = '#F5ECD6',                         -- parchment (matches polybar fg)
+  color0 = '#D4AF37',                                -- gold for title/psalm
+  color1 = '#8E8463',                                -- stone/olive for labels
+  update_interval = 1,                               -- fast UI, low cost
+  text_buffer_size = 4096,                           -- allow long psalms
+  minimum_width = 360, maximum_width = 360, minimum_height = 0,
+  alignment = 'top_right', gap_x = 24, gap_y = 60,
+};
+
+conky.text = [[
+${alignc}${color0}Ad Majorem Dei Gloriam${color}
+${hr}
+${color1}Time:${color} ${time %a %d %b %H:%M}   ${uptime_short}
+${color1}CPU:${color}  ${cpu}%   ${cpubar 8,220}
+${color1}RAM:${color}  ${memperc}%   ${membar 8,220}
+${color1}Disk:${color} ${fs_used /}/${fs_size /}  (${fs_used_perc /}%)
+${fs_bar 8,220 /}
+${if_existing /sys/class/power_supply/BAT0/uevent}${color1}Bat:${color} ${battery_percent BAT0}%  ${battery_time BAT0}${endif}
+${if_up wlp2s0}${color1}Wi-Fi:${color} ${downspeed wlp2s0}↓ ${upspeed wlp2s0}↑${endif}${if_up wlan0}${color1}Wi-Fi:${color} ${downspeed wlan0}↓ ${upspeed wlan0}↑${endif}${if_up eth0}${color1}LAN:${color} ${downspeed eth0}↓ ${upspeed eth0}↑${endif}
+${voffset 2}${color0}${execpi 600 conky-psalm 48}${color}
+]];
