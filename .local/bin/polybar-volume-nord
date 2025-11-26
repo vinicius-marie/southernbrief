@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Nord PulseAudio volume module for polybar
+
+# Get volume and mute status
+volume=$(pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null | grep -oP '\d+%' | head -1 | tr -d '%')
+muted=$(pactl get-sink-mute @DEFAULT_SINK@ 2>/dev/null | grep -oP 'yes|no')
+
+if [ -z "$volume" ]; then
+    echo "%{F#4C566A} --%%{F-}"
+    exit 0
+fi
+
+# Muted state
+if [ "$muted" = "yes" ]; then
+    echo "%{F#BF616A} $volume%%{F-}"
+    exit 0
+fi
+
+# Volume icons and colors based on level
+if [ "$volume" -ge 70 ]; then
+    icon=""
+elif [ "$volume" -ge 40 ]; then
+    icon=""
+elif [ "$volume" -ge 1 ]; then
+    icon=""
+else
+    icon=""
+fi
+
+printf '%%{F#88C0D0}%s %d%%%%%%{F-}' "$icon" "$volume"

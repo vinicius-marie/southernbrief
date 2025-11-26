@@ -6,13 +6,13 @@ eth_interface="enxea5f02203146"
 
 # Check ethernet first
 if ip link show "$eth_interface" 2>/dev/null | grep -q "state UP"; then
-    echo "%{F#88C0D0}  ETH%{F-}"
+    echo "%{F#88C0D0} ETH%{F-}"
     exit 0
 fi
 
 # Check WiFi interface
 if ! ip link show "$wifi_interface" 2>/dev/null | grep -q "UP"; then
-    echo "%{F#4C566A}  OFF%{F-}"
+    echo "%{F#4C566A} OFF%{F-}"
     exit 0
 fi
 
@@ -21,7 +21,7 @@ ssid=$(nmcli -t -f active,ssid dev wifi 2>/dev/null | grep '^yes' | cut -d: -f2)
 signal=$(nmcli -t -f active,signal dev wifi 2>/dev/null | grep '^yes' | cut -d: -f2)
 
 if [ -z "$ssid" ]; then
-    echo "%{F#BF616A}  DISC%{F-}"
+    echo "%{F#BF616A} DISC%{F-}"
     exit 0
 fi
 
@@ -37,8 +37,8 @@ else
 fi
 
 # Truncate SSID if too long
-if [ ${#ssid} -gt 15 ]; then
-    ssid="${ssid:0:12}..."
+if [ ${#ssid} -gt 12 ]; then
+    ssid="${ssid:0:9}..."
 fi
 
-echo "%{F${color}}  ${ssid} ${signal}%%{F-}"
+echo "%{F${color}} ${ssid} ${signal}%%{F-}"

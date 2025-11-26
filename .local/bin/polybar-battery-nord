@@ -4,7 +4,7 @@
 bat_dir=/sys/class/power_supply/BAT0
 
 if [ ! -d "$bat_dir" ]; then
-  echo "%{F#4C566A}BAT ?%{F-}"
+  echo "%{F#4C566A} ?%{F-}"
   exit 0
 fi
 

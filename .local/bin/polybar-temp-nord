@@ -14,7 +14,7 @@ for z in /sys/class/thermal/thermal_zone*/temp; do
 done
 
 if [ "$max_c_milli" -le 0 ]; then
-  echo "%{F#4C566A}TEMP ?%{F-}"
+  echo "%{F#4C566A} ?°F%{F-}"
   exit 0
 fi
 
@@ -32,4 +32,4 @@ else
   color="#88C0D0"  # cyan - normal
 fi
 
-printf '%%{F%s}%d°F%%{F-}' "$color" "$f"
+printf '%%{F%s} %d°F%%{F-}' "$color" "$f"
