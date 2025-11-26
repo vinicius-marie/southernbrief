@@ -30,36 +30,22 @@ def format_verse(verse_line):
     """Format a verse for Conky display with proper verse numbers."""
     try:
         # Expected format: "BookName Chapter:Verse-Range Full text with [1], [2] markers"
-        # Split at first space after the reference
-        parts = verse_line.split(' ', 1)
-        if len(parts) < 2:
+        # Find where the actual verse text starts (after first [)
+        bracket_pos = verse_line.find('[')
+        if bracket_pos == -1:
             return verse_line
         
-        reference = parts[0]
-        text = parts[1]
+        # Everything before [ is the reference
+        reference = verse_line[:bracket_pos].strip()
+        text = verse_line[bracket_pos:]
         
-        # Wrap the text while preserving verse number markers
-        lines = []
-        current_line = ""
-        words = text.split()
+        # Use textwrap for proper line wrapping
+        wrapped_lines = textwrap.fill(text, width=MAX_WIDTH, break_long_words=False, break_on_hyphens=False)
         
-        for word in words:
-            # Check if adding this word would exceed max width
-            test_line = current_line + (" " if current_line else "") + word
-            if len(test_line) > MAX_WIDTH and current_line:
-                lines.append(current_line)
-                current_line = word
-            else:
-                current_line = test_line
-        
-        if current_line:
-            lines.append(current_line)
-        
-        wrapped = "\n".join(lines)
-        
-        # Format output with reference highlighted
-        return f"${{{color2}}}${{font DejaVu Sans:bold:size=9}}{reference}${{font}}${{color}}\n{wrapped}"
-    except Exception:
+        # Format output with reference highlighted (Conky formatting)
+        return f"${{color2}}${{font DejaVu Sans:bold:size=9}}{reference}${{font}}${{color}}\n{wrapped_lines}"
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
         return verse_line
 
 def main():
