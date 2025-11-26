@@ -1,0 +1,130 @@
+[colors]
+background     = #BF2E3440
+background-alt = #993B4252
+
+foreground     = #D8DEE9
+foreground-alt = #E5E9F0
+
+primary   = #88C0D0
+secondary = #81A1C1
+
+alert = #BF616A
+
+
+[bar/main]
+monitor = ${env:MONITOR:}
+
+width  = 100%
+height = 24
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+line-color = ${colors.primary}
+
+padding-left  = 2
+padding-right = 2
+module-margin = 2
+
+; Fonts: Ubuntu Sans Mono regular + bold
+font-0 = "Ubuntu Sans Mono:style=Medium:size=9;2"
+font-1 = "Ubuntu Sans Mono:style=Bold:size=9;2"
+
+; Layout: left = AMDG + workspaces, center = date/time, right = wifi + temp + RAM + battery
+modules-left   = amdg xworkspaces
+modules-center = date
+modules-right  = network temp ram batt
+
+tray-position  = none
+
+override-redirect = false
+wm-restack       = generic
+enable-ipc       = true
+
+
+[module/amdg]
+type = custom/text
+content = %{T1}%{F#88C0D0}AMDG%{F-}%{T-}
+content-padding = 2
+
+
+[module/xworkspaces]
+type = internal/xworkspaces
+
+pin-workspaces  = false
+enable-click    = true
+enable-scroll   = true
+
+format = <label-state>
+
+; Active workspace: bright pill, dark text
+label-active = %{T0}%name%%{T-}
+label-active-foreground = #2E3440
+label-active-background = #88C0D0
+label-active-padding    = 2
+
+; Occupied workspace (has windows)
+label-occupied = %{T0}%name%%{T-}
+label-occupied-foreground = #D8DEE9
+label-occupied-padding    = 2
+
+; Empty workspace
+label-empty = %{T0}%name%%{T-}
+label-empty-foreground = #4C566A
+label-empty-padding    = 2
+
+
+[module/date]
+type = internal/date
+interval = 5
+
+date = %m/%d/%y
+time = %I:%M %p
+
+; date normal, time in bold + accent color
+label = %{T1}%{F#E5E9F0}%date% %{F#88C0D0}%time%%{F-}%{T-}
+
+
+[module/temp]
+type = custom/script
+exec = ~/.local/bin/temp-f
+interval = 5
+
+format = <label>
+format-padding = 1
+format-prefix  = "| "
+format-prefix-foreground = ${colors.foreground}
+label = %output%
+
+
+[module/ram]
+type = internal/memory
+interval = 3
+
+format = <label>
+label = %{T0}%{F#A3BE8C}RAM%{F-} %{F#D8DEE9}%percentage_used%%%{F-}%{T-}
+label-padding = 2
+
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+
+format = <label>
+label = %{T0}%{F#EBCB8B}CPU%{F-} %{F#D8DEE9}%percentage%%%{F-}%{T-}
+label-padding = 2
+
+[module/batt]
+type = custom/script
+exec = ~/.local/bin/battery-polybar
+interval = 15
+
+format = <label>
+label = %output%
+
+
+[module/network]
+type = custom/script
+exec = ~/.local/bin/polybar-wifi
+interval = 5
+click-left = ~/.local/bin/rofi-wifi-menu
+format-padding = 1

@@ -40,4 +40,4 @@ else
   color="#BF616A"  # red
 fi
 
-printf '%%{F%s}%s %d%%%%%%{F-}' "$color" "$icon" "$cap"
+printf '%%{F%s}%s %d%%%%{F-}' "$color" "$icon" "$cap"
