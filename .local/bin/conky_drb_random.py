@@ -11,7 +11,7 @@ import textwrap
 from pathlib import Path
 
 BIBLE_FILE = Path.home() / ".local/share/bible/douay_rheims.txt"
-MAX_WIDTH = 55  # Characters per line for wrapping
+MAX_WIDTH = 65  # Characters per line for wrapping
 
 def load_verses():
     """Load all verses from the Douay-Rheims file."""
