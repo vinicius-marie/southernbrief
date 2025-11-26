@@ -39,12 +39,21 @@ def format_verse(verse_line):
         reference = verse_line[:bracket_pos].strip()
         text = verse_line[bracket_pos:]
         
-        # Add line break before each verse number (except the first one)
+        # Add blank line before each verse number (except the first)
         import re
-        text = re.sub(r'(?<=\.) \[(\d+)\]', r'\n\n[\1]', text)
+        # Match: period + space + [number]
+        text = re.sub(r'(?<=\.)\s+\[(\d+)\]', r'\n\n[\1]', text)
         
-        # Use textwrap for proper line wrapping
-        wrapped_lines = textwrap.fill(text, width=MAX_WIDTH, break_long_words=False, break_on_hyphens=False)
+        # Use textwrap for proper line wrapping, preserve newlines
+        lines = text.split('\n')
+        wrapped = []
+        for line in lines:
+            if line.strip():
+                wrapped.append(textwrap.fill(line, width=MAX_WIDTH, break_long_words=False, break_on_hyphens=False))
+            else:
+                wrapped.append('')
+        
+        wrapped_lines = '\n'.join(wrapped)
         
         # Format output with reference highlighted (Conky formatting)
         return f"${{color2}}${{font DejaVu Sans:bold:size=9}}{reference}${{font}}${{color}}\n{wrapped_lines}"
