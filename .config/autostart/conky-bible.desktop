@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Conky Bible Verses
+Exec=/bin/sh -c 'sleep 6 && conky -c $HOME/.config/conky/conky-bible.conf'
+OnlyShowIn=XFCE;
+X-GNOME-Autostart-Delay=6
+Terminal=false
+Comment=Display random Douay-Rheims Bible verses
