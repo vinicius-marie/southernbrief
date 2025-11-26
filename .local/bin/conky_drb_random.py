@@ -11,7 +11,7 @@ import textwrap
 from pathlib import Path
 
 BIBLE_FILE = Path.home() / ".local/share/bible/douay_rheims.txt"
-MAX_WIDTH = 65  # Characters per line for wrapping
+MAX_WIDTH = 50  # Characters per line for wrapping
 
 def load_verses():
     """Load all verses from the Douay-Rheims file."""
@@ -38,6 +38,10 @@ def format_verse(verse_line):
         # Everything before [ is the reference
         reference = verse_line[:bracket_pos].strip()
         text = verse_line[bracket_pos:]
+        
+        # Add line break before each verse number (except the first one)
+        import re
+        text = re.sub(r'(?<=\.) \[(\d+)\]', r'\n\n[\1]', text)
         
         # Use textwrap for proper line wrapping
         wrapped_lines = textwrap.fill(text, width=MAX_WIDTH, break_long_words=False, break_on_hyphens=False)
