@@ -11,7 +11,7 @@ import textwrap
 from pathlib import Path
 
 BIBLE_FILE = Path.home() / ".local/share/bible/douay_rheims.txt"
-MAX_WIDTH = 40  # Characters per line for wrapping
+MAX_WIDTH = 50  # Characters per line for wrapping
 
 def load_verses():
     """Load all verses from the Douay-Rheims file."""
@@ -31,21 +31,20 @@ def format_verse(verse_line):
     try:
         # Expected format: "BookName Chapter:Verse Text"
         # Split at first space after the reference
-        parts = verse_line.split(' ', 2)
-        if len(parts) < 3:
+        parts = verse_line.split(' ', 1)
+        if len(parts) < 2:
             return verse_line
         
-        book = parts[0]
-        reference = parts[1]
-        text = parts[2]
+        reference = parts[0]
+        text = parts[1]
         
         # Wrap the text
         wrapped = textwrap.fill(text, width=MAX_WIDTH, 
                                break_long_words=False,
                                break_on_hyphens=False)
         
-        # Format output
-        return f"{book} {reference}\n{wrapped}"
+        # Format output with reference in bold/colored
+        return f"${{{color2}}}{reference}${{color}}\n{wrapped}"
     except Exception:
         return verse_line
 
@@ -54,7 +53,7 @@ def main():
     
     if not verses:
         print("No Bible data found.")
-        print(f"Place Douay-Rheims verses in:\n{BIBLE_FILE}")
+        print(f"Run: python3 ~/.local/bin/download_douay_rheims.py")
         return 1
     
     # Pick a random verse

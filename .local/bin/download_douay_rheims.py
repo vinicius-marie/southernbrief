@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Download and prepare Douay-Rheims Bible for Conky usage.
-Uses a simplified approach with sample verses.
+Curated inspiring and complete verses with context.
 """
 
 from pathlib import Path
@@ -9,40 +9,63 @@ from pathlib import Path
 BIBLE_DIR = Path.home() / ".local/share/bible"
 OUTPUT_FILE = BIBLE_DIR / "douay_rheims.txt"
 
-# Sample Douay-Rheims verses (public domain)
-SAMPLE_VERSES = [
-    "John 3:16 For God so loved the world, as to give his only begotten Son; that whosoever believeth in him, may not perish, but may have life everlasting.",
-    "Psalms 23:1 The Lord ruleth me: and I shall want nothing.",
-    "Psalms 46:1 God is our refuge and strength: a helper in troubles, which have found us exceedingly.",
-    "Proverbs 3:5 Have confidence in the Lord with all thy heart, and lean not upon thy own prudence.",
-    "Matthew 6:33 Seek ye therefore first the kingdom of God, and his justice, and all these things shall be added unto you.",
+# Curated inspiring Douay-Rheims verses (public domain) - complete and contextual
+INSPIRING_VERSES = [
+    "John 3:16-17 For God so loved the world, as to give his only begotten Son; that whosoever believeth in him, may not perish, but may have life everlasting. For God sent not his Son into the world, to judge the world, but that the world may be saved by him.",
+    
     "Romans 8:28 And we know that to them that love God, all things work together unto good, to such as, according to his purpose, are called to be saints.",
+    
+    "Philippians 4:6-7 Be nothing solicitous; but in every thing, by prayer and supplication, with thanksgiving, let your petitions be made known to God. And the peace of God, which surpasseth all understanding, keep your hearts and minds in Christ Jesus.",
+    
     "Philippians 4:13 I can do all things in him who strengtheneth me.",
+    
     "Isaiah 41:10 Fear not, for I am with thee: turn not aside, for I am thy God: I have strengthened thee, and have helped thee, and the right hand of my just one hath upheld thee.",
-    "Psalms 46:10 Be still and see that I am God; I will be exalted among the nations, and I will be exalted in the earth.",
-    "Matthew 11:28 Come to me, all you that labour, and are burdened, and I will refresh you.",
+    
+    "Matthew 11:28-30 Come to me, all you that labour, and are burdened, and I will refresh you. Take up my yoke upon you, and learn of me, because I am meek, and humble of heart: and you shall find rest to your souls. For my yoke is sweet and my burden light.",
+    
     "Joshua 1:9 Behold I command thee, take courage, and be strong. Fear not and be not dismayed: because the Lord thy God is with thee in all things whatsoever thou shalt go to.",
-    "Proverbs 16:3 Lay open thy works to the Lord: and thy thoughts shall be directed.",
-    "Psalms 91:1 He that dwelleth in the aid of the most High, shall abide under the protection of the God of Jacob.",
+    
+    "Proverbs 3:5-6 Have confidence in the Lord with all thy heart, and lean not upon thy own prudence. In all thy ways think on him, and he will direct thy steps.",
+    
+    "Romans 5:3-5 And not only so; but we glory also in tribulations, knowing that tribulation worketh patience; And patience trial; and trial hope; And hope confoundeth not: because the charity of God is poured forth in our hearts, by the Holy Ghost, who is given to us.",
+    
+    "2Corinthians 12:9-10 And he said to me: My grace is sufficient for thee; for power is made perfect in infirmity. Gladly therefore will I glory in my infirmities, that the power of Christ may dwell in me. For which cause I please myself in my infirmities, in reproaches, in necessities, in persecutions, in distresses, for Christ. For when I am weak, then am I powerful.",
+    
+    "Psalms 23:1-4 The Lord ruleth me: and I shall want nothing. He hath set me in a place of pasture. He hath brought me up, on the water of refreshment: He hath converted my soul. He hath led me on the paths of justice, for his own name's sake. For though I should walk in the midst of the shadow of death, I will fear no evils, for thou art with me. Thy rod and thy staff, they have comforted me.",
+    
+    "Jeremiah 29:11-13 For I know the thoughts that I think towards you, saith the Lord, thoughts of peace, and not of affliction, to give you an end and patience. And you shall call upon me, and you shall go: and you shall pray to me, and I will hear you. You shall seek me, and shall find me: when you shall seek me with all your heart.",
+    
     "1Corinthians 10:13 Let no temptation take hold on you, but such as is human. And God is faithful, who will not suffer you to be tempted above that which you are able: but will make also with temptation issue, that you may be able to bear it.",
-    "Jeremiah 29:11 For I know the thoughts that I think towards you, saith the Lord, thoughts of peace, and not of affliction, to give you an end and patience.",
-    "Romans 5:8 But God commendeth his charity towards us; because when as yet we were sinners, Christ died for us.",
-    "Ephesians 2:8 For by grace you are saved through faith, and that not of yourselves, for it is the gift of God.",
-    "Psalms 34:8 O taste, and see that the Lord is sweet: blessed is the man that hopeth in him.",
-    "Matthew 5:16 So let your light shine before men, that they may see your good works, and glorify your Father who is in heaven.",
-    "James 1:12 Blessed is the man that endureth temptation; for when he hath been proved, he shall receive the crown of life, which God hath promised to them that love him."
+    
+    "Romans 12:12 Rejoicing in hope. Patient in tribulation. Instant in prayer.",
+    
+    "James 1:2-4 My brethren, count it all joy, when you shall fall into divers temptations; Knowing that the trying of your faith worketh patience. And patience hath a perfect work; that you may be perfect and entire, failing in nothing.",
+    
+    "Ephesians 3:20-21 Now to him who is able to do all things more abundantly than we desire or understand, according to the power that worketh in us; To him be glory in the church, and in Christ Jesus unto all generations, world without end. Amen.",
+    
+    "1Peter 5:7 Casting all your care upon him, for he hath care of you.",
+    
+    "Hebrews 13:5-6 Let your manners be without covetousness, contented with such things as you have; for he hath said: I will not leave thee, neither will I forsake thee. So that we may confidently say: The Lord is my helper: I will not fear what man shall do to me.",
+    
+    "Matthew 6:33-34 Seek ye therefore first the kingdom of God, and his justice, and all these things shall be added unto you. Be not therefore solicitous for tomorrow; for the morrow will be solicitous for itself. Sufficient for the day is the evil thereof.",
+    
+    "Colossians 3:23-24 Whatsoever you do, do it from the heart, as to the Lord, and not to men: Knowing that you shall receive of the Lord the reward of inheritance. Serve ye the Lord Christ.",
 ]
 
 def create_bible_file():
-    """Create Bible file with sample verses."""
+    """Create Bible file with inspiring verses."""
     BIBLE_DIR.mkdir(parents=True, exist_ok=True)
     
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-        for verse in SAMPLE_VERSES:
+        for verse in INSPIRING_VERSES:
             f.write(verse + '\n')
     
-    print(f"✓ Created {len(SAMPLE_VERSES)} sample verses")
+    print(f"✓ Created {len(INSPIRING_VERSES)} inspiring verses")
     print(f"✓ Saved to: {OUTPUT_FILE}")
+    print("\nVerses include:")
+    print("  • Complete passages with context")
+    print("  • Encouraging and inspiring messages")
+    print("  • Faith, hope, perseverance themes")
     print("\nYou can now use conky_drb_random.py!")
 
 if __name__ == "__main__":
