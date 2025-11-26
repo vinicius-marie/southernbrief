@@ -1,0 +1,44 @@
+#!/bin/bash
+# Nord WiFi/Ethernet indicator for polybar
+
+wifi_interface="wlp0s20f3"
+eth_interface="enxea5f02203146"
+
+# Check ethernet first
+if ip link show "$eth_interface" 2>/dev/null | grep -q "state UP"; then
+    echo "%{F#88C0D0}  ETH%{F-}"
+    exit 0
+fi
+
+# Check WiFi interface
+if ! ip link show "$wifi_interface" 2>/dev/null | grep -q "UP"; then
+    echo "%{F#4C566A}  OFF%{F-}"
+    exit 0
+fi
+
+# Get WiFi info
+ssid=$(nmcli -t -f active,ssid dev wifi 2>/dev/null | grep '^yes' | cut -d: -f2)
+signal=$(nmcli -t -f active,signal dev wifi 2>/dev/null | grep '^yes' | cut -d: -f2)
+
+if [ -z "$ssid" ]; then
+    echo "%{F#BF616A}  DISC%{F-}"
+    exit 0
+fi
+
+# Signal strength colors
+if [ "$signal" -ge 75 ]; then
+    color="#A3BE8C"  # green
+elif [ "$signal" -ge 50 ]; then
+    color="#EBCB8B"  # yellow
+elif [ "$signal" -ge 25 ]; then
+    color="#D08770"  # orange
+else
+    color="#BF616A"  # red
+fi
+
+# Truncate SSID if too long
+if [ ${#ssid} -gt 15 ]; then
+    ssid="${ssid:0:12}..."
+fi
+
+echo "%{F${color}}  ${ssid} ${signal}%%{F-}"

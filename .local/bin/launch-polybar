@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+CFG="$HOME/.config/polybar/config.ini"
+BAR=$(grep -oP '^\[bar/\K[^]]+' "$CFG" | head -n1 || echo main)
+pkill -x polybar 2>/dev/null || true
+DISPLAY=${DISPLAY:-:0} XAUTHORITY=${XAUTHORITY:-$HOME/.Xauthority} \
+  polybar -q -r "$BAR" --config="$CFG" >/dev/null 2>&1 &

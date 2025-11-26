@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Nord battery module for polybar
+
+bat_dir=/sys/class/power_supply/BAT0
+
+if [ ! -d "$bat_dir" ]; then
+  echo "%{F#4C566A}BAT ?%{F-}"
+  exit 0
+fi
+
+capacity_file="$bat_dir/capacity"
+status_file="$bat_dir/status"
+
+if ! read -r cap < "$capacity_file"; then
+  cap=0
+fi
+
+if ! read -r status < "$status_file"; then
+  status="Unknown"
+fi
+
+# Battery icon based on status
+if [ "$status" = "Charging" ]; then
+  icon=""
+  color="#A3BE8C"  # green
+elif [ "$cap" -ge 80 ]; then
+  icon=""
+  color="#A3BE8C"  # green
+elif [ "$cap" -ge 60 ]; then
+  icon=""
+  color="#88C0D0"  # cyan
+elif [ "$cap" -ge 40 ]; then
+  icon=""
+  color="#EBCB8B"  # yellow
+elif [ "$cap" -ge 20 ]; then
+  icon=""
+  color="#D08770"  # orange
+else
+  icon=""
+  color="#BF616A"  # red
+fi
+
+printf '%%{F%s}%s %d%%%%%%{F-}' "$color" "$icon" "$cap"

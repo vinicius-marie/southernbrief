@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Polybar
+Exec=/bin/sh -lc '~/.local/bin/launch-polybar'
+OnlyShowIn=XFCE;
+X-GNOME-Autostart-Delay=4
+Terminal=false
+

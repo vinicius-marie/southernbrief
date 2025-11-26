@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Nord temperature module for polybar
+
+max_c_milli=0
+for z in /sys/class/thermal/thermal_zone*/temp; do
+  [ -f "$z" ] || continue
+  t=$(cat "$z" 2>/dev/null || echo 0)
+  case "$t" in
+    ''|*[!0-9]*) continue;;
+  esac
+  if [ "$t" -gt "$max_c_milli" ]; then
+    max_c_milli="$t"
+  fi
+done
+
+if [ "$max_c_milli" -le 0 ]; then
+  echo "%{F#4C566A}TEMP ?%{F-}"
+  exit 0
+fi
+
+c_whole=$((max_c_milli/1000))
+f=$(( (c_whole * 9) / 5 + 32 ))
+
+# Color based on temperature
+if [ "$f" -gt 180 ]; then
+  color="#BF616A"  # red - critical
+elif [ "$f" -gt 160 ]; then
+  color="#D08770"  # orange - hot
+elif [ "$f" -gt 140 ]; then
+  color="#EBCB8B"  # yellow - warm
+else
+  color="#88C0D0"  # cyan - normal
+fi
+
+printf '%%{F%s}%d°F%%{F-}' "$color" "$f"

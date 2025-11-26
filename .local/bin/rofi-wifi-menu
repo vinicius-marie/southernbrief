@@ -1,0 +1,35 @@
+#!/bin/bash
+# Rofi WiFi menu with Nord styling
+
+wifi_interface="wlp0s20f3"
+
+# Get list of networks
+networks=$(nmcli -f SSID,SIGNAL,SECURITY device wifi list | tail -n +2 | sed 's/^  *//' | sed 's/  */ | /g')
+
+# Show menu
+chosen=$(echo -e "󰤨  Rescan\n$networks" | rofi -dmenu -i -p "WiFi" -theme-str 'window {width: 40%;}')
+
+if [ -z "$chosen" ]; then
+    exit 0
+fi
+
+if echo "$chosen" | grep -q "Rescan"; then
+    nmcli device wifi rescan
+    notify-send "WiFi" "Rescanning networks..."
+    exit 0
+fi
+
+# Extract SSID (first field before |)
+ssid=$(echo "$chosen" | awk -F'|' '{print $1}' | xargs)
+
+# Check if network needs password
+security=$(echo "$chosen" | awk -F'|' '{print $3}' | xargs)
+
+if [[ "$security" != "--" && "$security" != "" ]]; then
+    password=$(rofi -dmenu -password -p "Password for $ssid")
+    if [ -n "$password" ]; then
+        nmcli device wifi connect "$ssid" password "$password" && notify-send "WiFi" "Connected to $ssid" || notify-send "WiFi" "Failed to connect"
+    fi
+else
+    nmcli device wifi connect "$ssid" && notify-send "WiFi" "Connected to $ssid" || notify-send "WiFi" "Failed to connect"
+fi
